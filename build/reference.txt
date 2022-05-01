@@ -93,9 +93,12 @@ xW    (--)        exit WHILE loop: unwind WHILE loop stack, continue after next 
 (     (f--)       IF: if (f != 0), continue into '()', continue after next ')'
 
 
+*** FILE ***
+xO    (n--f)      OPEN  - n: 0=>READ, else WRITE, f: file handle
+xC    (f--)       CLOSE - f: file handle
+xR    (f--c)      FREAD - f: file handle, n: char read (0 if EOF)
+xW    (c f--)     WRITE - f: file handle, c: char to write
+
+
 *** OTHER ***
-xZ    (--n)       n: Size of memory (in bytes)
-xC    (--a)       a: Start of code area
-xH    (--a)       a: Next free code byte (HERE)
-xh    (a--)       a: set HERE value to n
 xQ    (--)        Exit S2

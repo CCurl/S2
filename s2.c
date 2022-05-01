@@ -11,7 +11,7 @@
 #define NOS st.i[s-1]
 #define SZ 10000
 union flin { float f[SZ/4]; int i[SZ/4]; char b[SZ]; }; static union flin st;
-static char ex[80], u, a, k = 0;
+static char ex[80], u, a, k = 0, *y;
 static int c, h, r, cb = SZ-3000, p, s=1, ro=64, rb=35, sb=1, t;
 /* <33 */ void N()   { p=(' '<=u)?p:0; }
 /*  !  */ void f33() { st.i[TOS] = NOS; s -= 2; }
@@ -43,7 +43,7 @@ static int c, h, r, cb = SZ-3000, p, s=1, ro=64, rb=35, sb=1, t;
 /*  ]  */ void f93() { ++st.i[r]; if (st.i[r] <= st.i[r-1]) { p = st.i[r-2]; } else { r -= 3; } }
 /*  ^  */ void f94() { p = st.i[r--]; }
 /*  _  */ void f95() { TOS = -TOS; }
-/*  `  */ void f96() { char *y=ex; while (st.b[p]!='`') { *(y++) = st.b[p++]; } *y=0; system(ex); ++p; }
+/*  `  */ void f96() { y=ex; while (st.b[p]!='`') { *(y++) = st.b[p++]; } *y=0; system(ex); ++p; }
 /*  b  */ void f98() { u = st.b[p++]; if (u == '&') { NOS &= TOS; s--; }
             else if (u == '|') { NOS |= TOS; s--; }
             else if (u == '^') { NOS ^= TOS; s--; }
@@ -65,14 +65,13 @@ static int c, h, r, cb = SZ-3000, p, s=1, ro=64, rb=35, sb=1, t;
 /*  t  */ void f116() { st.i[++s] = GetTickCount(); }
 /*  x  */ void f120() { u = st.b[p++]; if (u == 'I') { st.i[++s] = st.i[r]; }
              else if (u == 'U') { --r; }
-             else if (u == 'W') { while (st.b[p++] != '}'); r--; }
+             else if (u == 'B') { while (st.b[p++] != '}'); r--; }
              else if (u == 'F') { while (st.b[p++] != ']'); r -= 3; }
              else if (u == '%') { NOS %= TOS; s--; }
-             else if (u == 'C') { st.i[++s] = cb; }
-             else if (u == 'H') { st.i[++s] = h; }
-             else if (u == 'h') { h = st.i[s--]; }
-             else if (u == 'Z') { st.i[++s] = SZ; }
-             else if (u == 'R') { char *y = &st.b[TOS]; fgets(y, 128, stdin); TOS = strlen(y); }
+             else if (u == 'O') { y=ex; while (st.b[p]!='|') *(y++)=st.b[p++]; *y=0; TOS=(int)fopen(ex,TOS?"wb":"rb"); ++p; }
+             else if (u == 'C') { if (TOS) { fclose((FILE*)TOS); } s--; }
+             else if (u == 'R') { t=TOS; TOS=0; if (t) fread((void*)&TOS,1,1,(FILE*)t); }
+             else if (u == 'W') { fwrite((void*)&NOS,1,1,(FILE*)TOS); s -= 2; }
              else if (u == 'Q') { exit(0); } }
 /*  {  */ void f123() { st.i[++r] = p; if (TOS == 0) { while (st.b[p] != '}') { ++p; } } }
 /*  }  */ void f125() { if (TOS) { p = st.i[r]; } else { --r; --s; } }
