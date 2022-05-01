@@ -13,7 +13,7 @@
 union flin { float f[SZ/4]; int i[SZ/4]; char b[SZ]; }; static union flin st;
 static char ex[80], u, a, k = 0, *y;
 static int c, h, r, cb = SZ-3000, p, s=1, ro=64, rb=35, sb=1, t;
-/* <33 */ void N()   { p=(' '<=u)?p:0; }
+/* <33 */ void X() { p = 0; } void N() {}
 /*  !  */ void f33() { st.i[TOS] = NOS; s -= 2; }
 /*  "  */ void f34() { while (st.b[p] != '"') { putc(st.b[p++], stdout); } ++p; }
 /*  #  */ void f35() { t = TOS; st.i[++s] = t; }
@@ -76,12 +76,12 @@ static int c, h, r, cb = SZ-3000, p, s=1, ro=64, rb=35, sb=1, t;
 /*  {  */ void f123() { st.i[++r] = p; if (TOS == 0) { while (st.b[p] != '}') { ++p; } } }
 /*  }  */ void f125() { if (TOS) { p = st.i[r]; } else { --r; --s; } }
 /*  }  */ void f126() { TOS = (TOS) ? 0 : -1; }
-void (*q[127])() = { N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,N,
+void (*q[127])() = { X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,N,
 f33,f34,f35,f36,f37,f38,f39,f40,N,f42,f43,f44,f45,f46,f47,n09,n09,n09,n09,n09,n09,n09,n09,n09,n09,
 f58,f59,f60,f61,f62,f63,f64,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,
 f91,f92,f93,f94,f95,f96,N,f98,f99,f100,f101,f102,N,N,f105,N,N,N,N,N,N,N,f113,
 f114,f115,f116,N,N,N,f120,N,N,f123,N,f125,f126 };
-void R(int x) { s=(s<sb)?sb:s; r=rb; p=x; while (cb<=p) { u=st.b[p++]; q[u](); } }
+void R(int x) { s=(s<sb)?sb:s; r=rb; p=x; while (p) { u=st.b[p++]; q[u](); } }
 void H(char* s) { FILE *fp=fopen("h.txt", "at"); if (fp) { fprintf(fp, "%s", s); fclose(fp); } }
 void L() { char *z = &st.b[h]; printf("\ns2:("); f113(); printf(")>"); fgets(z, 128, stdin); H(z); R(h); }
 void main(int argc, char *argv[]) {
