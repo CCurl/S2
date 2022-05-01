@@ -1,0 +1,18 @@
+:N13,10,;:B" ";
+100sA rA.B iA rA.B dA rA.B
+N1 2 3 ++.
+N1 2 3$\.B.
+N10_ 10[xI.B]
+N10 15[xIsIrI.B"("4 5[xI.xI4=(B)\]")"B]
+N10{#.B1-}"-out"
+N:A"start-"50{#.B41=(\xU^)1-}"-end";A"-back"
+N:A"start-"30{#.B22=(\xW)1-}"-end";A"-back"
+N:A"start-"33 55[xI.BxI44=(\xF)\]"-end";A"-back"
+N:A"part 1""-part 2";A"-back"
+N:A"part 1"^"-part 2";A"-back"
+:A"hello"17=(\^)\"-not 17";
+N22A"-back"
+N17A"-back"
+N20 1{\#.B1+31<}\
+Nt1 50 1000#**#."S"[]"E "t$-."ms"
+0(xQ)
