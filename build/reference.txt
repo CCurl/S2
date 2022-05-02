@@ -12,12 +12,12 @@ x%  (a b--m)      m: MODULO(a,b)
 
 
 *** FLOATING POINT ***
-fI     (a--b)     b: a converted to a float
-fO     (a--b)     b: a converted to an integer
 f+   (a b--n)     n: a+b - addition
 f-   (a b--n)     n: a-b - subtraction
 f*   (a b--n)     n: a*b - multiplication
 f/   (a b--q)     q: a/b - division
+f<   (a b--a f)   f: (a < b) ? -1 : 0;
+f>   (a b--a f)   f: (a > b) ? -1 : 0;
 
 
 *** BIT MANIPULATION ***
@@ -36,19 +36,24 @@ _  (a--b)         b: -a                            (Negate)
 
 
 *** MEMORY ***
-c@    (a--n)      Fetch BYTE n from address a
-@     (a--n)      Fetch CELL n from address a
-c!    (n a--)     Store BYTE n to address a
-!     (n a--)     Store CELL n to address a
-
+@     (a--n)      Fetch INT  n from S2 address a
+c@    (a--n)      Fetch BYTE n from S2 address a
+m@    (a--n)      Fetch BYTE n from ABSOLUTE address a
+l@    (a--n)      Fetch INT  n from ABSOLUTE address a
+!     (n a--)     Store INT  n to S2 address a
+c!    (n a--)     Store BYTE n to S2 address a
+m!    (n a--)     Store BYTE n to ABSOLUTE address a
+l!    (n a--)     Store INT  n to ABSOLUTE address a
+        NOTE: m!, and l! may cause the virus scanner to freak out.
+              If so, you'll need to comment out the (u=='!') part of functions f108() and f109().
 
 *** REGISTERS ***
         NOTES: 1) A register name is any printable character, including <space>
                2) Punctuation characters can also be used registers
 rX    (--n)       n: value of register X
 sX    (n--)       n: value to store in register X
-iX    (--)        increment register X
-dX    (--)        decrement register X
+iX    (--)        Increment register X
+dX    (--)        Decrement register X
 
 
 *** WORDS/FUNCTIONS ***
@@ -68,7 +73,7 @@ X     (?--?)      Call function X
 "      (--)       Output characters until the next '"'.
 0..9   (--n)      Scan DECIMAL number. For multiple numbers, separate them by space (47 33).
         NOTES: 1) To enter a negative number, use "negate" (eg - 490_).
-               2) If "e" immediately follows the number (eg - 355e), then convert it to a float.
+               2) If "e" immediately follows the number (eg - 355e), then it is converted to a float.
 'x     (--n)      n: the ASCII value of x
 `XXX`  (--)       Executes XXX as a shell command (ie - system(xxx))
 xR     (a--n)     ReadLine: a: byte address, n: number of chars read
@@ -83,21 +88,21 @@ xR     (a--n)     ReadLine: a: byte address, n: number of chars read
 xU    (--)        UNLOOP: Unwind FOR/WHILE stack, used to return from a function when in a loop 
 [     (F T--)     FOR: start a For/Next loop.
 xI    (--n)       n: the index of the current FOR loop
-xF    (--)        exit FOR loop: unwind FOR loop stack, continue after next ']'
-            NOTE: you can return from the function when in a FOR loop using (xUxUxU^)
+xF    (--)        eXit FOR loop: unwind FOR loop stack, continue after next ']'
+            NOTE: When in a FOR loop, You can unwind and return from the function using (xUxUxU^)
 ]     (--)        NEXT: increment index (I) and restart loop if (rI <= T)
 {     (f--f)      BEGIN: if (f == 0) skip to matching '}'
 }     (f--f?)     WHILE: if (f != 0) jump to matching '{', else drop f and continue
-xW    (--)        exit WHILE loop: unwind WHILE loop stack, continue after next '}'
-            NOTE: you can return from the function when in a WHILE loop using (xU^)
+xW    (--)        eXit WHILE loop: unwind WHILE loop stack, continue after next '}'
+            NOTE: When in a WHILE loop, you can unwind and return from the function using (xU^)
 (     (f--)       IF: if (f != 0), continue into '()', continue after next ')'
 
 
 *** FILE ***
-xO    (n--f)      OPEN  - n: 0=>READ, else WRITE, f: file handle
-xC    (f--)       CLOSE - f: file handle
-xR    (f--c)      FREAD - f: file handle, n: char read (0 if EOF)
-xW    (c f--)     WRITE - f: file handle, c: char to write
+fO    (n a--f)    OPEN  - n: 0=>READ, else WRITE, f: file handle (a points to a NULL terminated string)
+fC    (f--)       CLOSE - f: file handle
+fR    (f--c)      FREAD - f: file handle, n: char read (0 if EOF)
+fW    (c f--)     WRITE - f: file handle, c: char to write
 
 
 *** OTHER ***
