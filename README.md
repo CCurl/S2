@@ -25,6 +25,7 @@ f*   (a b--n)     n: a*b - multiplication
 f/   (a b--q)     q: a/b - division
 f<   (a b--a f)   f: (a < b) ? -1 : 0;
 f>   (a b--a f)   f: (a > b) ? -1 : 0;
+f.   (n--)        n: Number to output as a float
 
 
 *** BIT MANIPULATION ***
@@ -76,6 +77,7 @@ X     (?--?)      Call function X
 
 *** INPUT/OUTPUT ***
 .      (n--)      n: Number to output as a decimal
+f.     (n--)      n: Number to output as a float
 ,      (c--)      c: Character to output
 "      (--)       Output characters until the next '"'.
 0..9   (--n)      Scan DECIMAL number. For multiple numbers, separate them by space (47 33).
