@@ -61,8 +61,8 @@ static char ex[80], *y; static int c, h, r, cb=SZ-3000, p, s, ro=64, rb=35, sb=3
             else if (u=='>') { TOS=(st.f[s-1]>st.f[s]) ? -1 : 0; }
             else if (u=='O') { yex(); TOS=(int)fopen(ex, TOS ? "wb" : "rb"); }
             else if (u=='C') { if (TOS) { fclose((FILE*)TOS); } s--; }
-            else if (u=='R') { t=TOS; TOS=0; if (t) fread((void*)&TOS, 1, 1, (FILE*)t); }
-            else if (u=='W') { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); s -= 2; } }
+            else if (u=='R') { s++; TOS=0; if (NOS) fread((void*)&TOS, 1, 1, (FILE*)NOS); }
+            else if (u=='W') { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); s-=2; } }
 /*  i  */ void f105() { u=st.b[p++]; st.i[++s]=st.i[ro+u]; st.i[ro+u]++; }
 /*  l  */ void f108() { u=st.b[p++]; if (u=='@') { TOS=*((int*)TOS); } /*else if (u=='!') { *((int *)TOS)=NOS; s-=2; }*/ }
 /*  m  */ void f109() { u=st.b[p++]; if (u=='@') { TOS=*((char*)TOS); } /*else if (u=='!') { *((char*)TOS)=NOS; s-=2; }*/ }
