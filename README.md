@@ -9,23 +9,30 @@ S2 supports up to 26 function definitions (A..Z), floating point math, and simpl
 *     S2 Reference                 *
 ************************************
 
+*** STACK ***
+#  (a--a a)       Duplicate TOS           (DUP)
+\  (a b--a)       Drop TOS                (DROP)
+$  (a b--b a)     Swap top 2 stack items  (SWAP)
+%  (a b--a b a)   Push 2nd                (OVER)
+_  (a--b)         b: -a                   (NEGATE)
+
+
 *** ARITHMETIC ***
-+   (a b--n)      n: a+b - addition
--   (a b--n)      n: a-b - subtraction
-*   (a b--n)      n: a*b - multiplication
-/   (a b--q)      q: a/b - division
-&   (a b--q r)    q: DIV(a,b), r: MODULO(a,b) - /MOD
++   (a b--n)      n: a+b
+-   (a b--n)      n: a-b
+*   (a b--n)      n: a*b
+/   (a b--q)      q: a/b
 x%  (a b--m)      m: MODULO(a,b)
 
 
 *** FLOATING POINT ***
-f+   (a b--n)     n: a+b - addition
-f-   (a b--n)     n: a-b - subtraction
-f*   (a b--n)     n: a*b - multiplication
-f/   (a b--q)     q: a/b - division
+0-9e (--n)        n: a floating point number
+f+   (a b--n)     n: a+b
+f-   (a b--n)     n: a-b
+f*   (a b--n)     n: a*b
+f/   (a b--q)     q: a/b
 f<   (a b--a f)   f: (a < b) ? -1 : 0;
 f>   (a b--a f)   f: (a > b) ? -1 : 0;
-f.   (n--)        n: Number to output as a float
 
 
 *** BIT MANIPULATION ***
@@ -35,25 +42,20 @@ b^  (a b--n)      n: a XOR b
 b~  (a--b)        b: NOT a (ones-complement, e.g - 101011 => 010100)
 
 
-*** STACK ***
-#  (a--a a)       Duplicate TOS                    (DUP)
-\  (a b--a)       Drop TOS                         (DROP)
-$  (a b--b a)     Swap top 2 stack items           (SWAP)
-%  (a b--a b a)   Push 2nd                         (OVER)
-_  (a--b)         b: -a                            (Negate)
-
-
 *** MEMORY ***
-@     (a--n)      Fetch INT  n from S2 address a
-c@    (a--n)      Fetch BYTE n from S2 address a
-m@    (a--n)      Fetch BYTE n from ABSOLUTE address a
-l@    (a--n)      Fetch INT  n from ABSOLUTE address a
-!     (n a--)     Store INT  n to S2 address a
-c!    (n a--)     Store BYTE n to S2 address a
-m!    (n a--)     Store BYTE n to ABSOLUTE address a
-l!    (n a--)     Store INT  n to ABSOLUTE address a
+@     (a--n)      Fetch INT   n from S2 address a
+c@    (a--n)      Fetch BYTE  n from S2 address a
+f@    (a--n)      Fetch FLOAT n from S2 address a
+m@    (a--n)      Fetch BYTE  n from ABSOLUTE address a
+l@    (a--n)      Fetch INT   n from ABSOLUTE address a
+!     (n a--)     Store INT   n to S2 address a
+c!    (n a--)     Store BYTE  n to S2 address a
+f!    (n a--)     Store FLOAT n to S2 address a
+m!    (n a--)     Store BYTE  n to ABSOLUTE address a
+l!    (n a--)     Store INT   n to ABSOLUTE address a
         NOTE: m!, and l! may cause the virus scanner to freak out.
               If so, you'll need to comment out the (u=='!') part of functions f108() and f109().
+
 
 *** REGISTERS ***
         NOTES: 1) A register name is any printable character, including <space>
@@ -77,15 +79,14 @@ X     (?--?)      Call function X
 
 *** INPUT/OUTPUT ***
 .      (n--)      n: Number to output as a decimal
-f.     (n--)      n: Number to output as a float
 ,      (c--)      c: Character to output
-"      (--)       Output characters until the next '"'.
+b      (--)       Output a SPACE (NOTE: b&, b|, b^, and b~ take precedence)
+".."   (--)       Output characters until the next '"'.
 0..9   (--n)      Scan DECIMAL number. For multiple numbers, separate them by space (47 33).
         NOTES: 1) To enter a negative number, use "negate" (eg - 490_).
                2) If "e" immediately follows the number (eg - 355e), then it is converted to a float.
 'x     (--n)      n: the ASCII value of x
 `XXX`  (--)       Executes XXX as a shell command (ie - system(xxx))
-xR     (a--n)     ReadLine: a: byte address, n: number of chars read
 ?      (--c)      c: next character from STDIN (0 if EOF)
 
 
@@ -93,7 +94,6 @@ xR     (a--n)     ReadLine: a: byte address, n: number of chars read
 <     (a b--a f)  f: (a < b) ? -1 : 0;
 =     (a b--a f)  f: (a = b) ? -1 : 0;
 >     (a b--a f)  f: (a > b) ? -1 : 0;
-~     (n -- f)    f: (a = 0) ? -1 : 0; (Logical NOT)
 xU    (--)        UNLOOP: Unwind FOR/WHILE stack, used to return from a function when in a loop 
 [     (F T--)     FOR: start a For/Next loop.
 xI    (--n)       n: the index of the current FOR loop
@@ -108,9 +108,9 @@ xW    (--)        eXit WHILE loop: unwind WHILE loop stack, continue after next 
 
 
 *** FILE ***
-fO    (n a--f)    OPEN  - n: 0=>READ, else WRITE, f: file handle (a points to a NULL terminated string)
+fO    (n--f)      OPEN  - n: 0=>READ, else WRITE (usage: 0fOh.txt`)
 fC    (f--)       CLOSE - f: file handle
-fR    (f--c)      FREAD - f: file handle, n: char read (0 if EOF)
+fR    (f--f c)    FREAD - f: file handle, c: char read (0 if EOF)
 fW    (c f--)     WRITE - f: file handle, c: char to write
 
 
