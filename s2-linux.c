@@ -1,6 +1,6 @@
 // S2.c - inspired by, and based on, STABLE from Sandor Schneider
-#define _CRT_SECURE_NO_WARNINGS    // For Visual Studio
-#include <windows.h>
+// #define _CRT_SECURE_NO_WARNINGS    // For Visual Studio
+// #include <windows.h>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
@@ -69,7 +69,7 @@ static char ex[80], *y; static int c, h, r, cb=SZ-3000, p, s, ro=64, rb=35, sb=3
 /*  q  */ void f113() { for (int i=sb; i<=s; i++) { printf("%c%d", (i==sb)?0:32, st.i[i]); } }
 /*  r  */ void f114() { u=st.b[p++]; st.i[++s]=st.i[ro+u]; }
 /*  s  */ void f115() { u=st.b[p++]; st.i[ro+u]=st.i[s--]; }
-/*  t  */ void f116() { st.i[++s]=GetTickCount(); }
+/*  t  */ void f116() { st.i[++s]=1; } // { st.i[++s]=GetTickCount(); }
 /*  x  */ void f120() { u=st.b[p++]; if (u=='I') { st.i[++s]=st.i[r]; }
             else if (u=='U') { --r; }
             else if (u=='W') { while (st.b[p++]!='}'); r--; }

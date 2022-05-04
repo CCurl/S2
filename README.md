@@ -39,7 +39,7 @@ f>   (a b--a f)   f: (a > b) ? -1 : 0;
 b&  (a b--n)      n: a AND b
 b|  (a b--n)      n: a OR  b
 b^  (a b--n)      n: a XOR b
-b~  (a--b)        b: NOT a (ones-complement, e.g - 101011 => 010100)
+b~  (a--b)        b: NOT a (ones-complement, e.g - 11001011 => 00110100)
 
 
 *** MEMORY ***
@@ -60,10 +60,10 @@ l!    (n a--)     Store INT   n to ABSOLUTE address a
 *** REGISTERS ***
         NOTES: 1) A register name is any printable character, including <space>
                2) Punctuation characters can also be used registers
-rX    (--n)       n: value of register X
+rX    (--n)       n: current value of register X
 sX    (n--)       n: value to store in register X
-iX    (--)        Increment register X
-dX    (--)        Decrement register X
+iX    (--n)       n: current value of register X, then increment X
+dX    (--n)       n: current value of register X, then decrement X
 
 
 *** WORDS/FUNCTIONS ***
@@ -91,9 +91,12 @@ b      (--)       Output a SPACE (NOTE: b&, b|, b^, and b~ take precedence)
 
 
 *** CONDITIONS/LOOPS/FLOW CONTROL ***
-<     (a b--a f)  f: (a < b) ? -1 : 0;
-=     (a b--a f)  f: (a = b) ? -1 : 0;
->     (a b--a f)  f: (a > b) ? -1 : 0;
+<     (a b--f)    f: (a <  b) ? -1 : 0;
+=     (a b--f)    f: (a == b) ? -1 : 0;
+>     (a b--f)    f: (a >  b) ? -1 : 0;
+<=    (a b--f)    f: (a <= b) ? -1 : 0;
+>=    (a b--f)    f: (a >= b) ? -1 : 0;
+~     (a--f)      f: (a == 0) ? -1 : 0;  (Logical NOT)
 xU    (--)        UNLOOP: Unwind FOR/WHILE stack, used to return from a function when in a loop 
 [     (F T--)     FOR: start a For/Next loop.
 xI    (--n)       n: the index of the current FOR loop
@@ -108,7 +111,7 @@ xW    (--)        eXit WHILE loop: unwind WHILE loop stack, continue after next 
 
 
 *** FILE ***
-fO    (n--f)      OPEN  - n: 0=>READ, else WRITE (usage: 0fOh.txt`)
+fO    (a n--f)    OPEN  - n: 0=>READ, else WRITE (usage: 1000 0fO)
 fC    (f--)       CLOSE - f: file handle
 fR    (f--f c)    FREAD - f: file handle, c: char read (0 if EOF)
 fW    (c f--)     WRITE - f: file handle, c: char to write
