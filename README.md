@@ -4,11 +4,21 @@ S2 is a full-featured, stack-based, Forth-like, interactive, stack-based interpr
 It was inspired by, and is based on, Sandor Schneider's STABLE program.
 
 S2 supports up to 26 function definitions (A..Z), floating point math, and simple file operations. It also provides 95 registers.
-```
-************************************
-*     S2 Reference                 *
-************************************
 
+## Examples
+```
+0(this is a comment)
+"Hello World!"     0("Hello World!")
+10_ 10[xI.b]       0(print out numbers from -10 through 10)
+#("yes")~("no")    0(print "yes" or "no" depending on TOS)
+r1 fO#(fR{,fR}fC)  0(print the contents of file named by r1)
+123 {#.b 1-}       0(count down and print out from 123 to 0)
+355e 113e f/ F.    0(floating point - PI)
+:N10,;             0(define function N)
+32 126[NxI#.": ",] 0(print ascii table)
+```
+## S2 Reference
+```
 *** STACK ***
 #  (a--a a)       Duplicate TOS           (DUP)
 \  (a b--a)       Drop TOS                (DROP)
