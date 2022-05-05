@@ -27,6 +27,8 @@ x%  (a b--m)      m: MODULO(a,b)
 
 *** FLOATING POINT ***
 0-9e (--n)        n: a floating point number
+ff   (a--b)       b: int a converted to float
+fi   (a--b)       b: float a converted to int
 f+   (a b--n)     n: a+b
 f-   (a b--n)     n: a-b
 f*   (a b--n)     n: a*b
@@ -54,7 +56,7 @@ f!    (n a--)     Store FLOAT n to S2 address a
 m!    (n a--)     Store BYTE  n to ABSOLUTE address a
 l!    (n a--)     Store INT   n to ABSOLUTE address a
         NOTE: m!, and l! may cause the virus scanner to freak out.
-              If so, you'll need to comment out the (u=='!') part of functions f108() and f109().
+              If so, you can comment out the (u=='!') part of functions f108() and f109().
 
 
 *** REGISTERS ***
