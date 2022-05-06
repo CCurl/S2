@@ -11,11 +11,11 @@ S2 supports up to 26 function definitions (A..Z), floating point math, and simpl
 "Hello World!"     0("Hello World!")
 10_ 10[xI.b]       0(print out numbers from -10 through 10)
 #("yes")~("no")    0(print "yes" or "no" depending on TOS)
-r1 fO#(fR{,fR}fC)  0(print the contents of file named by r1)
+r1 fO#(fR{,fR}fC)  0(print the contents of the file named by r1)
 123 {#.b 1-}       0(count down and print out from 123 to 0)
 355e 113e f/ F.    0(floating point - PI)
 :N10,;             0(define function N)
-32 126[NxI#.": ",] 0(print ascii table)
+32 126[xI#.":".,N] 0(print the ascii table)
 ```
 ## S2 Reference
 ```
@@ -72,21 +72,22 @@ l!    (n a--)     Store INT   n to ABSOLUTE address a
 *** REGISTERS ***
         NOTES: 1) A register name is any printable character, including <space>
                2) Punctuation characters can also be used registers
-rX    (--n)       n: current value of register X
+rX    (--n)       n: value of register X
 sX    (n--)       n: value to store in register X
-iX    (--n)       n: current value of register X, then increment X
-dX    (--n)       n: current value of register X, then decrement X
+iX    (--)        Increment register X
+iX@   (--n)       n: value of register X after incrementing it
+dX    (--)        Decrement register X
+dX@   (--n)       n: value of register X after decrementing it
 
 
 *** WORDS/FUNCTIONS ***
         NOTES: 1) A function name is a single UPPERCASE character
 :     (--)        Define function. Copy chars to (HERE++) until closing ';'.
 X     (?--?)      Call function X
-^     (--)        Early return from function
 ;     (--)        Function definition end, return
-        NOTES: 1) Returning while inside of a loop is not supported; break out of the loop first.
-               2) Use 'xW' to break out of a FOR or WHILE loop.
-               2) Use 'xL' to break out of a FOR or WHILE loop.
+^     (--)        Early return from function
+        NOTES: 1) When in a FOR loop, unwind the loop stack first using (xUxUxU^)
+               2) When in a WHILE loop, unwind the loop stack first using (xU^)
 
 
 *** INPUT/OUTPUT ***
@@ -109,18 +110,15 @@ b      (--)       Output a SPACE (NOTE: b&, b|, b^, and b~ take precedence)
 <=    (a b--f)    f: (a <= b) ? -1 : 0;
 >=    (a b--f)    f: (a >= b) ? -1 : 0;
 ~     (a--f)      f: (a == 0) ? -1 : 0;  (Logical NOT)
-xU    (--)        UNLOOP: Unwind FOR/WHILE stack, used to return from a function when in a loop 
-[     (F T--)     FOR: start a For/Next loop.
-xI    (--n)       n: the index of the current FOR loop
-xF    (--)        eXit FOR loop: unwind FOR loop stack, continue after next ']'
-            NOTE: When in a FOR loop, You can unwind and return from the function using (xUxUxU^)
+(     (f--)       IF: if (f != 0), continue into '()', else jump to next ')'
+[     (F T--)     FOR: start a FOR/NEXT loop.
 ]     (--)        NEXT: increment index (I) and restart loop if (rI <= T)
-{     (f--f)      BEGIN: if (f == 0) skip to matching '}'
+xI    (--n)       n: the index of the current FOR loop iterator
+xF    (--)        eXit FOR loop: unwind FOR loop stack, jump to next ']'
+{     (f--f)      BEGIN: if (f == 0) jump to matching '}'
 }     (f--f?)     WHILE: if (f != 0) jump to matching '{', else drop f and continue
-xW    (--)        eXit WHILE loop: unwind WHILE loop stack, continue after next '}'
-            NOTE: When in a WHILE loop, you can unwind and return from the function using (xU^)
-(     (f--)       IF: if (f != 0), continue into '()', continue after next ')'
-
+xW    (--)        eXit WHILE loop: unwind WHILE loop stack, jump to next '}'
+e     (A--)       EXECUTE: call function at location A
 
 *** FILE ***
 fO    (a n--f)    OPEN  - n: 0=>READ, else WRITE (usage: 1000 0fO)
