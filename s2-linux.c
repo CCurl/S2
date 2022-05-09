@@ -11,12 +11,13 @@ int GetTickCount() { return 1; } // #include <windows.h>
 #define SZ 10000
 union flin { float f[SZ/4]; int i[SZ/4]; char b[SZ]; }; static union flin st;
 static char ex[80], *y; static int c, h, r, cb=SZ-3000, p, s, ro=64, rb=35, sb=3, t, u;
-/* <33 */ void X()   { if (u && (u!=10)) printf("-IR %d (%c)?", u, c); p=0; } void N() {}
+/* <33 */ void X()   { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; } void N() {}
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
 /*  "  */ void f34() { while (st.b[p]!='"') { putc(st.b[p++], stdout); } ++p; }
 /*  #  */ void f35() { t=TOS; st.i[++s]=t; }
 /*  $  */ void f36() { t=TOS; TOS=NOS; NOS=t; }
 /*  %  */ void f37() { t=NOS; st.i[++s]=t; }
+/*  &  */ void f38() { u=NOS; t=TOS; NOS=u/t; TOS=u%t; }
 /*  '  */ void f39() { st.i[++s]=st.b[p++]; }
 /*  (  */ void f40() { if (st.i[s--]==0) { while (st.b[p++]!=')'); } }
 /*  *  */ void f42() { NOS *= TOS; s--; }
@@ -75,7 +76,7 @@ static char ex[80], *y; static int c, h, r, cb=SZ-3000, p, s, ro=64, rb=35, sb=3
 /*  {  */ void f123() { st.i[++r]=p; if (TOS==0) { while (st.b[p]!='}') { ++p; } } }
 /*  }  */ void f125() { if (TOS) { p=st.i[r]; } else { --r; --s; } }
 /*  ~  */ void f126() { TOS = (TOS) ? 0 : -1; }
-void (*q[127])()={ X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,N,f33,f34,f35,f36,f37,X,
+void (*q[127])()={ X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,N,f33,f34,f35,f36,f37,f38,
     f39,f40,N,f42,f43,f44,f45,f46,f47,n09,n09,n09,n09,n09,n09,n09,n09,n09,n09,f58,f59,f60,f61,f62,f63,f64,
     AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,f91,f92,f93,f94,f95,f96,X,
     f98,f99,f100,f101,f102,X,X,f105,X,X,f108,f109,X,X,X,f113,f114,f115,f116,X,X,X,f120,X,X,f123,X,f125,f126 };
