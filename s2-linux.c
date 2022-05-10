@@ -1,6 +1,6 @@
 // S2.c - inspired by, and based on, STABLE from Sandor Schneider
 #define _CRT_SECURE_NO_WARNINGS  // For Visual Studio
-int GetTickCount() { return 1; } // #include <windows.h>
+int GetTickCount() { return clock(); } // #include <windows.h>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
