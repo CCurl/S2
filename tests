@@ -1,19 +1,21 @@
 :N13,10,;
-100sA iA.b dA.b rA.b
+100sA rA.b iA@.b dA@.b
 N1 2 3 ++.
 N1 2 3$\.b.
-N10_ 10[xI.b]
-N10 15[xIsIrI.b"("4 5[xI#.4=(b)]")"b]
+N10_ 10[n.b]
+N10 15[nsIrI.b"("4 5[n#.4=(b)]")"b]
 N10{#.b1-}"-out"
 N:A"start-"50{#.b#41=(\xU^)1-}"-end";A"-back"
 N:A"start-"30{#.b#22=(\xW)1-}"-end";A"-back"
-N:A"start-"33 55[xI#.b44=(xF)]"-end";A"-back"
+N:A"start-"33 55[n#.b44=(xF)]"-end";A"-back"
 N:A"part 1""-part 2";A"-back"
 N:A"part 1"^"-part 2";A"-back"
 :A"hello ("#.")"b17=(^)"-not 17";
 N22A"-back"N17A"-back"
 N20 #{\#.b1+#31<=}\
-Nt1 50 1000#**#."S"[]"E "t$-."ms"
+Nt1 5 1000#**#.b[] "t$-."ms"
 N"PI: "355e 113e f/ f.
+:P%%&~(\=^)%<(\^)2+P;
+Nt 4sC 11 100000[n3P(iC)1p]rC." primes, " t$-." ms"
 Nr1 0"("q")"N fO#(fR{,fR}fC)
 0(xQ)

@@ -63,12 +63,13 @@ static char ex[80], *y; static int c, h, r, cb=SZ-3000, p, s, ro=64, rb=35, sb=3
 /*  i  */ void f105() { t=ro+st.b[p++]; st.i[t]++; if (st.b[p]=='@') { st.i[++s]=st.i[t]; ++p; } }
 /*  l  */ void f108() { u=st.b[p++]; if (u=='@') { TOS=*((int*)TOS); }  /*else if (u=='!') { *((int *)TOS)=NOS; s-=2; }*/ }
 /*  m  */ void f109() { u=st.b[p++]; if (u=='@') { TOS=*((char*)TOS); } /*else if (u=='!') { *((char*)TOS)=NOS; s-=2; }*/ }
+/*  n  */ void f110() { st.i[++s]=st.i[r]; }
+/*  p  */ void f112() { st.i[r]+=st.i[s--]; }
 /*  q  */ void f113() { for (int i=sb; i<=s; i++) { printf("%c%d", (i==sb)?0:32, st.i[i]); } }
 /*  r  */ void f114() { t=ro+st.b[p++]; st.i[++s]=st.i[t]; }
 /*  s  */ void f115() { t=ro+st.b[p++]; st.i[t]=st.i[s--]; }
 /*  t  */ void f116() { st.i[++s]=GetTickCount(); }
-/*  x  */ void f120() { u=st.b[p++]; if (u=='I') { st.i[++s]=st.i[r]; }
-            else if (u=='U') { --r; }
+/*  x  */ void f120() { u=st.b[p++]; if (u == 'U') { --r; }
             else if (u=='W') { while (st.b[p++]!='}'); r--; }
             else if (u=='F') { while (st.b[p++]!=']'); r-=3; }
             else if (u=='%') { NOS %= TOS; s--; }
@@ -79,7 +80,7 @@ static char ex[80], *y; static int c, h, r, cb=SZ-3000, p, s, ro=64, rb=35, sb=3
 void (*q[127])()={ X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,N,f33,f34,f35,f36,f37,f38,
     f39,f40,N,f42,f43,f44,f45,f46,f47,n09,n09,n09,n09,n09,n09,n09,n09,n09,n09,f58,f59,f60,f61,f62,f63,f64,
     AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,f91,f92,f93,f94,f95,f96,X,
-    f98,f99,f100,f101,f102,X,X,f105,X,X,f108,f109,X,X,X,f113,f114,f115,f116,X,X,X,f120,X,X,f123,X,f125,f126 };
+    f98,f99,f100,f101,f102,X,X,f105,X,X,f108,f109,f110,X,f112,f113,f114,f115,f116,X,X,X,f120,X,X,f123,X,f125,f126 };
 void R(int x) { s=(s<sb)?(sb-1):s; r=rb; p=x; while (p) { u=st.b[p++]; q[u](); } }
 void H(char *s) { FILE *fp=fopen("h.txt", "at"); if (fp) { fprintf(fp, "%s", s); fclose(fp); } }
 void L() { y=&st.b[h]; printf("\ns2:("); f113(); printf(")>"); fgets(y, 128, stdin); H(y); R(h); }
