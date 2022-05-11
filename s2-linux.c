@@ -56,6 +56,7 @@ static char ex[80], *y; static int c, h, r, cb=SZ-3000, p, s, ro=64, rb=35, sb=3
             else if (u=='-') { st.f[s-1]-=st.f[s]; s--; }  else  if (u=='>') { TOS=(st.f[s-1] > st.f[s]) ? -1 : 0; }
             else if (u=='*') { st.f[s-1]*=st.f[s]; s--; }  else  if (u=='i') { TOS=(int)st.f[s]; }
             else if (u=='/') { st.f[s-1]/=st.f[s]; s--; }  else  if (u=='f') { st.f[s]=(float)TOS; }
+            else if (u=='s') { st.f[s]=(float)sqrt(st.f[s]); }
             else if (u=='O') { y=&st.b[NOS]; t=TOS; NOS=(int)fopen(y, (t)?"wb":"rb"); s--; }
             else if (u=='C') { if (TOS) { fclose((FILE*)TOS); } s--; }
             else if (u=='R') { s++; TOS=0; if (NOS) fread((void*)&TOS, 1, 1, (FILE*)NOS); }
