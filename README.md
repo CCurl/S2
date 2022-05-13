@@ -8,23 +8,23 @@ S2 supports up to 26 function definitions (A..Z), floating point math, and simpl
 ## Examples
 ```
 0(this is a comment)
-"Hello World!"     0("Hello World!")
-10_ 10[xI.b]       0(print out numbers from -10 through 10)
-#("yes")~("no")    0(print "yes" or "no" depending on TOS)
-r1 fO#(fR{,fR}fC)  0(print the contents of the file named by r1)
-123 {#.b 1-}       0(count down and print out from 123 to 0)
-355e 113e f/ F.    0(floating point - PI)
-:N10,;             0(define function N)
-32 126[xI#.":".,N] 0(print the ascii table)
+"Hello World!"        0("Hello World!")
+10_ 10[xI.b]          0(print out numbers from -10 through 10)
+#("yes")~("no")       0(print "yes" or "no" depending on TOS)
+r1 fO#(fR{,fR}fC)     0(print the contents of the file named by r1)
+123 {#.b 1-}          0(count down and print out from 123 to 0)
+355e 113e f/ F.       0(floating point - PI)
+:N10,;                0(define function N)
+32 126[xI#.":".,N]    0(print the ascii table)
 ```
 ## S2 Reference
 ```
 *** STACK ***
-#  (a--a a)       Duplicate TOS           (DUP)
-\  (a b--a)       Drop TOS                (DROP)
-$  (a b--b a)     Swap top 2 stack items  (SWAP)
-%  (a b--a b a)   Push 2nd                (OVER)
-_  (a--b)         b: -a                   (NEGATE)
+#  (a--a a)       Duplicate TOS             (DUP)
+\  (a b--a)       Drop TOS                  (DROP)
+$  (a b--b a)     Swap top 2 stack items    (SWAP)
+%  (a b--a b a)   Push 2nd                  (OVER)
+_  (a--b)         b: -a                     (NEGATE)
 
 
 *** ARITHMETIC ***
@@ -32,7 +32,8 @@ _  (a--b)         b: -a                   (NEGATE)
 -   (a b--n)      n: a-b
 *   (a b--n)      n: a*b
 /   (a b--q)      q: a/b
-x%  (a b--m)      m: MODULO(a,b)
+&   (a b--q r)    q:: DIV(a,b), r:MOD(a,b)  (/MOD)
+x%  (a b--r)      r: MOD(a,b)
 
 
 *** FLOATING POINT ***
@@ -45,7 +46,8 @@ f*   (a b--n)     n: a*b
 f/   (a b--q)     q: a/b
 f<   (a b--a f)   f: (a < b) ? -1 : 0;
 f>   (a b--a f)   f: (a > b) ? -1 : 0;
-
+fs   (a--b)       b: SQRT(a)
+ft   (a--b)       b: TANH(a)
 
 *** BIT MANIPULATION ***
 b&  (a b--n)      n: a AND b
@@ -66,14 +68,14 @@ f!    (n a--)     Store FLOAT n to S2 address a
 m!    (n a--)     Store BYTE  n to ABSOLUTE address a
 l!    (n a--)     Store INT   n to ABSOLUTE address a
         NOTE: m!, and l! may cause the virus scanner to freak out.
-              If so, you can comment out the (u=='!') part of functions f108() and f109().
+              If so, you can comment out the "if (u=='!') {}" part of functions f108() and f109().
 
 
 *** REGISTERS ***
         NOTES: 1) A register name is any printable character, including <space>
                2) Punctuation characters can also be used registers
-rX    (--n)       n: value of register X
-sX    (n--)       n: value to store in register X
+rX    (--n)       Read value of register X (n)
+sX    (n--)       Store (n) in register X
 iX    (--)        Increment register X
 iX@   (--n)       n: value of register X after incrementing it
 dX    (--)        Decrement register X
@@ -93,11 +95,11 @@ X     (?--?)      Call function X
 *** INPUT/OUTPUT ***
 .      (n--)      n: Number to output as a decimal
 ,      (c--)      c: Character to output
-b      (--)       Output a SPACE (NOTE: b&, b|, b^, and b~ take precedence)
+b      (--)       Output a single SPACE (NOTE: b&, b|, b^, and b~ take precedence)
 ".."   (--)       Output characters until the next '"'.
-0..9   (--n)      Scan DECIMAL number. For multiple numbers, separate them by space (47 33).
-        NOTES: 1) To enter a negative number, use "negate" (eg - 490_).
-               2) If "e" immediately follows the number (eg - 355e), then it is converted to a float.
+0..9   (--n)      Scan DECIMAL number n. For multiple numbers, separate them by space (47 33).
+        NOTES: 1) To enter a negative number, use "NEGATE" (eg - 490_).
+               2) If "e" immediately follows the number (eg - 355e), then n is converted to a float.
 'x     (--n)      n: the ASCII value of x
 `XXX`  (--)       Executes XXX as a shell command (ie - system(xxx))
 ?      (--c)      c: next character from STDIN (0 if EOF)
@@ -117,7 +119,7 @@ xI    (--n)       n: the index of the current FOR loop iterator
 xF    (--)        eXit FOR loop: unwind FOR loop stack, jump to next ']'
 {     (f--f)      BEGIN: if (f == 0) jump to matching '}'
 }     (f--f?)     WHILE: if (f != 0) jump to matching '{', else drop f and continue
-xW    (--)        eXit WHILE loop: unwind WHILE loop stack, jump to next '}'
+xW    (--)        eXit WHILE loop: unwind WHILE loop stack, continue after next '}'
 e     (A--)       EXECUTE: call function at location A
 
 *** FILE ***

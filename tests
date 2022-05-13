@@ -11,11 +11,14 @@ N:A"start-"33 55[n#.b44=(xF)]"-end";A"-back"
 N:A"part 1""-part 2";A"-back"
 N:A"part 1"^"-part 2";A"-back"
 :A"hello ("#.")"b17=(^)"-not 17";
+:Et$- ff 1000e f/ f." seconds";
+:K 1000*;
 N22A"-back"N17A"-back"
 N20 #{\#.b1+#31<=}\
-Nt1 5 1000#**#.b[] "t$-."ms"
+Nt1 50KK#.b[]E
 N"PI: "355e 113e f/ f.
+N999e1000ef/"tanh("#f.")="ft f.
 :P%%&~(\=^)%<(\^)2+P;
-Nt 4sC 11 100000[n3P(iC)1p]rC." primes, " t$-." ms"
-Nr1 0"("q")"N fO#(fR{,fR}fC)
+Nt 100000sN 4sC 11 rN[n3P(iC)1p]rC." primes in "rN.", " E
+N0sN r1 0fO#(fR{\iN fR}fC)rN." bytes in test file."
 0(xQ)
