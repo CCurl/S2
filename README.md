@@ -49,6 +49,7 @@ f>   (a b--a f)   f: (a > b) ? -1 : 0;
 fs   (a--b)       b: SQRT(a)
 ft   (a--b)       b: TANH(a)
 
+
 *** BIT MANIPULATION ***
 b&  (a b--n)      n: a AND b
 b|  (a b--n)      n: a OR  b
@@ -60,15 +61,9 @@ b~  (a--b)        b: NOT a (ones-complement, e.g - 11001011 => 00110100)
 @     (a--n)      Fetch INT   n from S2 address a
 c@    (a--n)      Fetch BYTE  n from S2 address a
 f@    (a--n)      Fetch FLOAT n from S2 address a
-m@    (a--n)      Fetch BYTE  n from ABSOLUTE address a
-l@    (a--n)      Fetch INT   n from ABSOLUTE address a
 !     (n a--)     Store INT   n to S2 address a
 c!    (n a--)     Store BYTE  n to S2 address a
 f!    (n a--)     Store FLOAT n to S2 address a
-m!    (n a--)     Store BYTE  n to ABSOLUTE address a
-l!    (n a--)     Store INT   n to ABSOLUTE address a
-        NOTE: m!, and l! may cause the virus scanner to freak out.
-              If so, you can comment out the "if (u=='!') {}" part of functions f108() and f109().
 
 
 *** REGISTERS ***
@@ -77,9 +72,9 @@ l!    (n a--)     Store INT   n to ABSOLUTE address a
 rX    (--n)       Read value of register X (n)
 sX    (n--)       Store (n) in register X
 iX    (--)        Increment register X
-iX@   (--n)       n: value of register X after incrementing it
+iX@   (--n)       n: value of register X BEFORE incrementing it
 dX    (--)        Decrement register X
-dX@   (--n)       n: value of register X after decrementing it
+dX@   (--n)       n: value of register X BEFORE decrementing it
 
 
 *** WORDS/FUNCTIONS ***
@@ -121,6 +116,7 @@ xF    (--)        eXit FOR loop: unwind FOR loop stack, jump to next ']'
 }     (f--f?)     WHILE: if (f != 0) jump to matching '{', else drop f and continue
 xW    (--)        eXit WHILE loop: unwind WHILE loop stack, continue after next '}'
 e     (A--)       EXECUTE: call function at location A
+
 
 *** FILE ***
 fO    (a n--f)    OPEN  - n: 0=>READ, else WRITE (usage: 1000 0fO)
