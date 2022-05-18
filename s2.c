@@ -47,7 +47,7 @@ static char ex[80], *y; static int c, h, r, cb=SZ-3000, p, s, ro=64, rb=64, sb=3
             else if (u=='^') { NOS^=TOS; s--; }
             else { putc(32, stdout); --p; } }
 /*  c  */ void f99()  { u=st.b[p++]; if (u=='@') { TOS=st.b[TOS]; } else if (u=='!') { st.b[TOS]=NOS; s -= 2; } }
-/*  d  */ void f100() { t=ro+st.b[p++]; st.i[t]--; if (st.b[p]=='@') { st.i[++s]=st.i[t]; ++p; } }
+/*  d  */ void f100() { t=ro+st.b[p++]; if (st.b[p]=='@') { st.i[++s]=st.i[t]; ++p; } st.i[t]--; }
 /*  e  */ void f101() { st.i[--r]=p; p=st.i[s--]; }
 /*  f  */ void f102() { u=st.b[p++];                                if (u=='.') { printf("%g", st.f[s--]); }
             else if (u=='@') { st.f[s]=st.f[TOS]; }            else if (u=='!') { st.f[TOS]=st.f[s-1]; s-=2; }
@@ -60,7 +60,7 @@ static char ex[80], *y; static int c, h, r, cb=SZ-3000, p, s, ro=64, rb=64, sb=3
             else if (u=='C') { if (TOS) { fclose((FILE*)TOS); } s--; }
             else if (u=='R') { s++; TOS=0; if (NOS) fread((void*)&TOS, 1, 1, (FILE*)NOS); }
             else if (u=='W') { if (TOS) { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); } s-=2; } }
-/*  i  */ void f105() { t=ro+st.b[p++]; st.i[t]++; if (st.b[p]=='@') { st.i[++s]=st.i[t]; ++p; } }
+/*  i  */ void f105() { t=ro+st.b[p++]; if (st.b[p]=='@') { st.i[++s]=st.i[t]; ++p; } st.i[t]++; }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
 /*  q  */ void f113() { int i; for (i=sb; i<=s; i++) { printf("%c%d", (i==sb)?0:32, st.i[i]); } }
