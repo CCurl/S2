@@ -1,7 +1,6 @@
 :N13,10,;
 100sA rA.b iA@.b dA@.b
-N1 2 3 ++.
-N1 2 3$\.b.
+N1 2 3 ++.b1 2 3$\.b.
 N10_ 10[n.b]
 N10 15[nsIrI.b"("4 5[n#.4=(b)]")"b]
 N10{#.b1-}"-out"
@@ -12,13 +11,13 @@ N:A"part 1""-part 2";A"-back"
 N:A"part 1"^"-part 2";A"-back"
 :A"hello ("#.")"b17=(^)"-not 17";
 :Et$- ff 1000e f/ f." seconds";
-:K 1000*;
+:K1000*;0(:MMKzK;)
 N22A"-back"N17A"-back"
 N20 #{\#.b1+#31<=}\
-Nt1 50KK#.b[]E
+Nt1 50KK#.b[]Ez
 N"PI: "355e 113e f/ f.
 N999e1000ef/"tanh("#f.")="ft f.
 :P%%&~(\=^)%<(\^)2+P;
-Nt 100000sN 4sC 11 rN[n3P(iC)1p]rC." primes in "rN.", " E
+Nt 100000sN 4sC 11 rN[n3P(iC)1p]rC." primes in "rN.", " Ez
 N0sN r1 0fO#(fR{\iN fR}fC)rN." bytes in test file."
 0(xQ)
