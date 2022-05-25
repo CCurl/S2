@@ -11,10 +11,11 @@ N:A"part 1""-part 2";A"-back"
 N:A"part 1"^"-part 2";A"-back"
 :A"hello ("#.")"b17=(^)"-not 17";
 :Et$- ff 1000e f/ f." seconds";
-:K1000*;0(:MMKzK;)
+:K1000*;:M KzK;
 N22A"-back"N17A"-back"
 N20 #{\#.b1+#31<=}\
-Nt1 50KK#.b[]Ez
+:Bt$1$M#.b[]E;
+N50 Bz
 N"PI: "355e 113e f/ f.
 N999e1000ef/"tanh("#f.")="ft f.
 :P%%&~(\=^)%<(\^)2+P;
