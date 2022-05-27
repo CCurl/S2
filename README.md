@@ -14,7 +14,7 @@ S2 supports up to 26 function definitions (A..Z), floating point math, and simpl
 #("yes")~("no")       0(print "yes" or "no" depending on TOS)
 r1 fO#(fR{,fR}fC)     0(print the contents of the file named by r1)
 123 {#.b1-}           0(count down and print out from 123 to 0)
-355e 113e f/ F.       0(floating point - PI)
+355e 113e f/ f.       0(floating point - PI)
 32 126[n.": "n.,N]    0(print the ascii table)
 ```
 ## S2 Reference
