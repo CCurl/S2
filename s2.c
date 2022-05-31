@@ -1,5 +1,4 @@
 // S2.c - inspired by, and based on, STABLE from Sandor Schneider
-#define _CRT_SECURE_NO_WARNINGS    // For Visual Studio
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
