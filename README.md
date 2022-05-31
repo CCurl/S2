@@ -80,13 +80,13 @@ dX@   (--n)       n: value of register X BEFORE decrementing it
 
 
 *** WORDS/FUNCTIONS ***
-        NOTES: 1) A function name is a single UPPERCASE character
-:     (--)        Define function. Copy chars to (HERE++) until closing ';'.
-X     (?--?)      Call function X
-;     (--)        Function definition end, return
-^     (--)        Early return from function
-        NOTES: 1) When in a FOR loop, unwind the loop stack first using (xUxUxU^)
-               2) When in a WHILE loop, unwind the loop stack first using (xU^)
+        NOTES: 1) A function name is a single UPPERCASE character.
+:X    (--)        Define function X. Copy chars to (HERE++) until closing ';'.
+X     (?--?)      Call function X.
+;     (--)        Function definition end, (when running, return).
+^     (--)        Early return from function.
+        NOTES: 1) When in a WHILE loop, unwind the loop stack first using (xU^)
+               2) When in a FOR loop, unwind the loop stack first using (xUxUxU^)
 
 
 *** INPUT/OUTPUT ***
