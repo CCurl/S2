@@ -9,13 +9,13 @@ S2 supports up to 26 function definitions (A..Z), floating point math, and simpl
 ```
 0(this is a comment)
 "Hello World!"        0("Hello World!")
+:N10,;                0(define function N)
 10_ 10[n.b]           0(print out numbers from -10 through 10)
 #("yes")~("no")       0(print "yes" or "no" depending on TOS)
 r1 fO#(fR{,fR}fC)     0(print the contents of the file named by r1)
-123 {#.b 1-}          0(count down and print out from 123 to 0)
+123 {#.b1-}           0(count down and print out from 123 to 0)
 355e 113e f/ F.       0(floating point - PI)
-:N10,;                0(define function N)
-32 126[n#.": ".,N]    0(print the ascii table)
+32 126[n.": "n.,N]    0(print the ascii table)
 ```
 ## S2 Reference
 ```
@@ -51,13 +51,15 @@ ft   (a--b)       b: TANH(a)
 
 
 *** BIT MANIPULATION ***
-x&  (a b--n)      n: a AND b
-x|  (a b--n)      n: a OR  b
-x^  (a b--n)      n: a XOR b
-x~  (a--b)        b: NOT a (ones-complement, e.g - 11001011 => 00110100)
+b&  (a b--n)      n: a AND b
+b|  (a b--n)      n: a OR  b
+b^  (a b--n)      n: a XOR b
+b~  (a--b)        b: NOT a (ones-complement, e.g - 11001011 => 00110100)
 
 
 *** MEMORY ***
+        USAGE: ints:  [0- 64:stacks][ 65- 90:funcs][100-199:regs][200-1749:free][1750-2499:code]
+               bytes: [0-259:stacks][260-359:funcs][400-799:regs][800-6999:free][7000-9999:code]
 @     (a--n)      Fetch INT   n from S2 address a
 c@    (a--n)      Fetch BYTE  n from S2 address a
 f@    (a--n)      Fetch FLOAT n from S2 address a
@@ -90,13 +92,14 @@ X     (?--?)      Call function X
 *** INPUT/OUTPUT ***
 .      (n--)      n: Number to output as a decimal
 ,      (c--)      c: Character to output
+b      (--)       Output a single SPACE (NOTE: b&, b|, b^, and b~ take precedence)
 ".."   (--)       Output characters until the next '"'.
 0..9   (--n)      Scan DECIMAL number n. For multiple numbers, separate them by space (47 33).
         NOTES: 1) To enter a negative number, use "NEGATE" (eg - 490_).
                2) If "e" immediately follows the number (eg - 355e), then n is converted to a float.
 'x     (--n)      n: the ASCII value of x
 `XXX`  (--)       Executes XXX as a shell command (ie - system(xxx))
-|XXX|  (A--B)     Copies XXX to A with NULL terminator. B: next free byte after NULL.
+|XXX|  (A--B)     Copies XXX<NULL> to BYTE address A. B: Next char after the <NULL>
 ?      (--c)      c: next character from STDIN (0 if EOF)
 
 
@@ -111,10 +114,16 @@ X     (?--?)      Call function X
 [     (F T--)     FOR: start a FOR/NEXT loop.
 ]     (--)        NEXT: increment index (I) and restart loop if (rI <= T)
 n     (--n)       n: the index of the current FOR loop iterator
+p     (N--)       Add N to the current FOR loop iterator
 xF    (--)        eXit FOR loop: unwind FOR loop stack, jump to next ']'
 {     (f--f)      BEGIN: if (f == 0) jump to matching '}'
 }     (f--f?)     WHILE: if (f != 0) jump to matching '{', else drop f and continue
 xW    (--)        eXit WHILE loop: unwind WHILE loop stack, continue after next '}'
+xU    (--)        Remove the top entry from the return stack.
+        NOTES: 1) This can be used to return from the function while in a loop.
+               2) A WHILE loop puts ONE entry on the return stack.
+               3) A FOR loop puts 3 entries on the return stack.
+e     (A--)       EXECUTE: call function at location A
 
 
 *** FILE ***
@@ -125,6 +134,7 @@ fW    (c f--)     WRITE - f: file handle, c: char to write
 
 
 *** OTHER ***
-t     (--n)       n: current clock() value
+t     (--n)       n: clock()
+q     (--)        Prints the stack
 xQ    (--)        Exit S2
 ```
