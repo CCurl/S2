@@ -25,6 +25,8 @@ r1 fO#(fR{,fR}fC)     0(print the contents of the file named by r1)
 $  (a b--b a)     Swap top 2 stack items    (SWAP)
 %  (a b--a b a)   Push 2nd                  (OVER)
 _  (a--b)         b: -a                     (NEGATE)
+i  (a--b)         b: a+1                    (INCREMENT)
+d  (a--b)         b: a-1                    (DECREMENT)
 
 
 *** ARITHMETIC ***
@@ -58,8 +60,8 @@ b~  (a--b)        b: NOT a (ones-complement, e.g - 11001011 => 00110100)
 
 
 *** MEMORY ***
-        USAGE: ints:  [0- 64:stacks][ 65- 90:funcs][100-199:regs][200-1749:free][1750-2499:code]
-               bytes: [0-259:stacks][260-359:funcs][400-799:regs][800-6999:free][7000-9999:code]
+        USAGE: ints:  [0- 64:stacks][ 65- 90:funcs][ 97-122:regs][125-194:locals][200-end:free]
+               bytes: [0-259:stacks][260-359:funcs][388-491:regs][500-779:locals][800-end:free]
 @     (a--n)      Fetch INT   n from S2 address a
 c@    (a--n)      Fetch BYTE  n from S2 address a
 f@    (a--n)      Fetch FLOAT n from S2 address a
@@ -69,13 +71,15 @@ f!    (n a--)     Store FLOAT n to S2 address a
 
 
 *** LOCALS ***
+        NOTES: 1) A local name is any single digit, 0-9
+               2) Referring to a local pushes its address on the stack.
+lX    (--a)       a: address of local #X
 l+    (--)        Allocate 10 locals
 l-    (--)        De-allocate 10 locals
-lX    (--a)       Push address of local #X
+
 
 *** REGISTERS ***
-        NOTES: 1) A register name is any printable character, including <space>
-               2) Punctuation characters can also be used registers
+        NOTE: A register name is a single UPPERCASE character, A-Z.
 rX    (--n)       Read value of register X (n)
 sX    (n--)       Store (n) in register X
 iX    (--)        Increment register X
@@ -85,13 +89,13 @@ dX@   (--n)       n: value of register X BEFORE decrementing it
 
 
 *** WORDS/FUNCTIONS ***
-        NOTES: 1) A function name is a single UPPERCASE character.
-:X    (--)        Define function X. Copy chars to (HERE++) until closing ';'.
+        NOTE: A function name is a single UPPERCASE character, A-Z.
+:X;   (--)        Define function X. Copy chars to (HERE++) until next ';'.
 X     (?--?)      Call function X.
-;     (--)        Function definition end, (when running, return).
+;     (--)        Return, end function definition.
 ^     (--)        Early return from function.
-        NOTES: 1) When in a WHILE loop, unwind the loop stack first using (xU^)
-               2) When in a FOR loop, unwind the loop stack first using (xUxUxU^)
+        NOTES: 1) When in a WHILE loop, unwind the loop stack first using (xU^).
+               2) When in a FOR loop, unwind the loop stack first using (xUxUxU^).
 
 
 *** INPUT/OUTPUT ***
