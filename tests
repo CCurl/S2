@@ -9,13 +9,15 @@ N:A"start-"30{#.b#22=(\xW)1-}"-end";A"-back"
 N:A"start-"33 55[n#.b44=(xF)]"-end";A"-back"
 N:A"part 1""-part 2";A"-back"
 N:A"part 1"^"-part 2";A"-back"
+123#l4!l+456#l4!l4@=~(N"-local! fail-")
+l-l4@=~(N"- l+/l- fail-")
 :A"hello ("#.")"b17=(^)"-not 17";
 :Et$- ff 1000e f/ f." seconds";
 :K1000*;:M KK;
 N22A"-back"N17A"-back"
 N20 #{\#.b1+#31<=}\
-:Bt$1$M#.b[]E;
-N50 B
+:Bt$1$#.b[]E;
+N50MB
 N"PI: "355e 113e f/ f.
 N 999e 1000e f/ "tanh("#f.")="ft f.
 :P%%&~(\=^)%<(\^)2+P;
