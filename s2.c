@@ -26,7 +26,7 @@ static char ex[80], *y; static int c, cb=800, h, p, lb=125, rg=68, rb=64, r, sb=
 /*  /  */ void f47() { NOS /= TOS; s--; }
 /* 0-9 */ void n09() { st.i[++s]=(u-'0'); while (btw(st.b[p],'0','9')) { TOS=(TOS*10)+st.b[p++]-'0'; }
             if (st.b[p]=='e') { ++p; st.f[s]=(float)TOS; } }
-/*  :  */ void f58() { u=st.b[p++]; if (!btw(u,'A','Z')) { return; }
+/*  :  */ void f58() { u=st.b[p++]; if (!btw(u,'A','Z')) { return; } if (st.b[p]==' ') { ++p; }
             st.i[u]=p; while (st.b[p++]!=';'); if (h<p) { h=p; } st.i[0]=h; }
 /*  ;  */ void f59() { p=st.i[r++]; if (rb<r) { r=rb; p=0; } }
 /*  <  */ void f60() { t=TOS; u=NOS; s--; TOS=(u<t)?-1:0; if (st.b[p]=='=') { ++p; TOS=(u<=t)?-1:0; } }
