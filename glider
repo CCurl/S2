@@ -1,11 +1,11 @@
 :N#c@(iN)1+;
 :ArN2=(rIc@^)rN3=(1^)0;
-:CrBsFrAsT1rS[iF@c@iT@c!]D;
-:D27,"[H"rAsI1rR[1rC[32iI@c@(\'O),]10,];
+:CrBsF rAsT 1rS[rFc@rTc!iFiT]D;
+:D27,"[H" rAsX 1rR[1 rC[32 rXc@(\'O),iX]10,];
 :RrC*rB+;
 :W0sN rC-1-NNN rC+3-N1+N rC+3-NNN \;
-:LrC1+ rSrC-1-[rAn+sI rI WA rBn+c!]C;
-40sC 25sR 1000sA 3000sB rRrC*sS
+:L rCi rSrC-d[rAn+#sI WA rBn+c!]C;
+40sC 25sR rRrC*sS 0@100+sA rArS+sB 
  0R|........................................|\
  1R|..............................O.........|\
  2R|.............................O.O........|\
@@ -17,8 +17,8 @@
  8R|............O.O.........................|\
  9R|............OO..........................|\
 10R|........................................|\
-rB sI 1 sS[0 rI c@ 'O=(1+) iI@ c!]
-`CLS`CD
+rB sI 1 rS[0 rI c@ 'O=(1+) rI c! iI]
+`CLS`C
 27,"[?25l"
 1 1000[L]
 27,"[?25h"
