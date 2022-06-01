@@ -3,7 +3,7 @@ S2 is a full-featured and interactive stack-based interpreter/VM, implemented in
 
 It was inspired by, and is based on, Sandor Schneider's STABLE program.
 
-S2 supports up to 26 function definitions (A..Z), floating point math, and simple file operations. It also provides 95 registers.
+S2 supports up to 26 function definitions, floating point math, locals, and simple file operations. It also provides 26 registers.
 
 ## Examples
 ```
@@ -88,7 +88,7 @@ dX    (--)        Decrement register X
 dX@   (--n)       n: value of register X BEFORE decrementing it
 
 
-*** WORDS/FUNCTIONS ***
+*** FUNCTIONS ***
         NOTE: A function name is a single UPPERCASE character, A-Z.
 :X;   (--)        Define function X. Copy chars to (HERE++) until next ';'.
 X     (?--?)      Call function X.
