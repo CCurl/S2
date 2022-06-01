@@ -68,6 +68,11 @@ c!    (n a--)     Store BYTE  n to S2 address a
 f!    (n a--)     Store FLOAT n to S2 address a
 
 
+*** LOCALS ***
+l+    (--)        Allocate 10 locals
+l-    (--)        De-allocate 10 locals
+lX    (--a)       Push address of local #X
+
 *** REGISTERS ***
         NOTES: 1) A register name is any printable character, including <space>
                2) Punctuation characters can also be used registers
