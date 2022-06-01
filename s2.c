@@ -8,7 +8,7 @@
 #define NOS st.i[s-1]
 #define SZ 10000
 union fib { float f[SZ/4]; int i[SZ/4]; char b[SZ]; }; static union fib st;
-static char ex[80], *y; static int c, h, cb=SZ-3000, p, lb=125, l, rg=68, rb=64, r, sb=4, s, t, u;
+static char ex[80], *y; static int c, cb=800, h, p, lb=125, rg=68, rb=64, r, sb=4, s, t, u;
 /* <33 */ void X()   { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; } void N() {}
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
 /*  "  */ void f34() { while (st.b[p]!='"') { putc(st.b[p++], stdout); } ++p; }
@@ -27,7 +27,7 @@ static char ex[80], *y; static int c, h, cb=SZ-3000, p, lb=125, l, rg=68, rb=64,
 /* 0-9 */ void n09() { st.i[++s]=(u-'0'); while (btw(st.b[p],'0','9')) { TOS=(TOS*10)+st.b[p++]-'0'; }
             if (st.b[p]=='e') { ++p; st.f[s]=(float)TOS; } }
 /*  :  */ void f58() { u=st.b[p++]; if (!btw(u,'A','Z')) { return; }
-            st.i[u]=p; while (st.b[p++]!=';'); if (h<p) { h=p; } }
+            st.i[u]=p; while (st.b[p++]!=';'); if (h<p) { h=p; } st.i[0]=h; }
 /*  ;  */ void f59() { p=st.i[r++]; if (rb<r) { r=rb; p=0; } }
 /*  <  */ void f60() { t=TOS; u=NOS; s--; TOS=(u<t)?-1:0; if (st.b[p]=='=') { ++p; TOS=(u<=t)?-1:0; } }
 /*  =  */ void f61() { NOS=(NOS==TOS)?-1:0; s--; }
@@ -61,9 +61,9 @@ static char ex[80], *y; static int c, h, cb=SZ-3000, p, lb=125, l, rg=68, rb=64,
             else if (u=='R') { s++; TOS=0; if (NOS) fread((void*)&TOS, 1, 1, (FILE*)NOS); }
             else if (u=='W') { if (TOS) { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); } s-=2; } }
 /*  i  */ void f105() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+32]++; } else { --p; ++TOS; }  }
-/*  l  */ void f108() { u=st.b[p++]; if (btw(u,'0','9')) { st.i[++s]=l+u-'0'; }
-        else if (u=='+') { l+=(l<(lb+100))?10:0; }
-        else if (u=='-') { l-=(lb<l)?10:0; } }
+/*  l  */ void f108() { u=st.b[p++]; if (btw(u,'0','9')) { st.i[++s]=lb+u-'0'; }
+        else if (u=='+') { lb+=(lb<185)?10:0; }
+        else if (u=='-') { lb-=(125<lb)?10:0; } }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
 /*  q  */ void f113() { int i; for (i=sb; i<=s; i++) { printf("%c%d", (i==sb)?0:32, st.i[i]); } }
@@ -87,11 +87,11 @@ void R(int x) { s=(s<sb)?(sb-1):s; r=rb; p=x; while (p) { u=st.b[p++]; q[u](); }
 void H(char *s) { FILE *fp=fopen("h.txt", "at"); if (fp) { fprintf(fp, "%s", s); fclose(fp); } }
 void L() { y=&st.b[h]; printf("\ns2:("); f113(); printf(")>"); fgets(y, 128, stdin); H(y); R(h); }
 void main(int argc, char *argv[]) {
-    int i,j; s=sb-1; h=cb; u=1000; l=lb; for (i=0; i<(SZ/4); i++) { st.i[i]=0; }
-    st.i[l]=argc; for (i=1; i < argc; ++i) { y=argv[i]; t=atoi(y);
-        if ((t) || (y[0]=='0' && y[1]==0)) { st.i[l+i]=t; }
-        else { st.i[l+i]=u; for (j=0; y[j]; j++) { st.b[u++]=y[j]; } st.b[u++]=0; } }
+    int i,j; s=sb-1; h=cb; u=SZ-500; for (i=0; i<(SZ/4); i++) { st.i[i]=0; }
+    st.i[lb]=argc; for (i=1; i < argc; ++i) { y=argv[i]; t=atoi(y);
+        if ((t) || (y[0]=='0' && y[1]==0)) { st.i[lb+i]=t; }
+        else { st.i[lb+i]=u; for (j=0; y[j]; j++) { st.b[u++]=y[j]; } st.b[u++]=0; } }
     if ((argc>1) && (argv[1][0]!='-')) { FILE *fp=fopen(argv[1], "rb"); 
-        if (fp) {while ((c=fgetc(fp))!=EOF) { if (btw(c,32,126)) st.b[h++]=c; } fclose(fp); R(cb); } else { printf("file?"); }
+        if (fp) {while ((c=fgetc(fp))!=EOF) { if (btw(c,32,126)) st.b[h++]=c; } fclose(fp); st.i[0]=h; R(cb); }
     } while (1) { L(); };
 }
