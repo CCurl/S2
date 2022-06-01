@@ -1,10 +1,10 @@
-:N#c@(iN)1+;
-:ArN2=(rIc@^)rN3=(1^)0;
-:CrBsF rAsT 1rS[rFc@rTc!iFiT]D;
-:D27,"[H" rAsX 1rR[1 rC[32 rXc@(\'O),iX]10,];
-:RrC*rB+;
-:W0sN rC-1-NNN rC+3-N1+N rC+3-NNN \;
-:L rCi rSrC-d[rAn+#sI WA rBn+c!]C;
+0(Conway's GOL: a glider gun)
+:N #c@(iN)i;
+:A rN2=(rIc@^)rN3=(1^)0;
+:D 27,"[H" rBsY rAsX 1rR[1 rC[32 rYc@#rXc!(\'O),iXiY]10,];
+:R rC*rB+;
+:W 0sN rC-1-NNN rC+3-N1+N rC+3-NNN \A;
+:L rCi rSrC-d[rAn+#sI W rBn+c!]D;
 40sC 25sR rRrC*sS 0@100+sA rArS+sB 
  0R|........................................|\
  1R|..............................O.........|\
@@ -17,9 +17,8 @@
  8R|............O.O.........................|\
  9R|............OO..........................|\
 10R|........................................|\
-rB sI 1 rS[0 rI c@ 'O=(1+) rI c! iI]
-`CLS`C
+rBsI 1rS[0 rI c@ 'O=(i) rI c! iI]
 27,"[?25l"
-1 1000[L]
+`CLS`D 1 1000[L]
 27,"[?25h"
 xQ
