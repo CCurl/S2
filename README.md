@@ -136,7 +136,7 @@ xU    (--)        Remove the top entry from the return/loop stack.
 
 
 *** FILE ***
-fO    (a n--f)    OPEN  - n: 0=>READ, else WRITE (usage: 1000 0fO)
+fO    (a n--f)    OPEN  - n: 0=>READ, else WRITE (usage: "file.txt" 0 fO)
 fC    (f--)       CLOSE - f: file handle
 fR    (f--f c)    FREAD - f: file handle, c: char read (0 if EOF)
 fW    (c f--)     WRITE - f: file handle, c: char to write
