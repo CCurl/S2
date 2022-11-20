@@ -35,7 +35,7 @@ d  (a--b)         b: a-1                    (DECREMENT)
 *   (a b--n)      n: a*b
 /   (a b--q)      q: a/b
 &   (a b--q r)    q:: DIV(a,b), r:MOD(a,b)  (/MOD)
-x%  (a b--r)      r: MOD(a,b)
+m   (a b--r)      r: MOD(a,b)
 
 
 *** FLOATING POINT ***

@@ -65,6 +65,7 @@ int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u;
 /*  l  */ void f108() { u=st.b[p++]; if (btw(u,'0','9')) { st.i[++s]=lb+u-'0'; }
         else if (u=='+') { lb+=(lb<840)?10:0; }
         else if (u=='-') { lb-=(750<lb)?10:0; } }
+/*  m  */ void f109() { NOS %= TOS; s--; }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
 /*  q  */ void f113() { int i; for (i=sb; i<=s; i++) { printf("%c%d", (i==sb)?0:32, st.i[i]); } }
@@ -74,7 +75,6 @@ int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u;
 /*  x  */ void f120() { u=st.b[p++]; if (u=='U') { ++r; }
             else if (u=='W') { while (st.b[p++]!='}') {} r++; }
             else if (u=='F') { while (st.b[p++]!=']') {} r+=3; }
-            else if (u=='%') { NOS%=TOS; s--; }
             else if (u=='Q') { exit(0); } }
 /*  {  */ void f123() { st.i[--r]=p; if (TOS==0) { while (st.b[p]!='}') { ++p; } } }
 /*  |  */ void f124() { while (st.b[p]!='|') { st.b[TOS++]=st.b[p++]; } st.b[TOS++]=0; ++p; }
@@ -83,7 +83,7 @@ int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u;
 void (*q[127])()={ X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,N,f33,f34,f35,f36,f37,f38,
     f39,f40,N,f42,f43,f44,f45,f46,f47,n09,n09,n09,n09,n09,n09,n09,n09,n09,n09,f58,f59,f60,f61,f62,f63,f64,
     AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,f91,f92,f93,f94,f95,f96,X,
-    f98,f99,f100,f101,f102,X,X,f105,X,X,f108,X,f110,X,f112,f113,f114,f115,f116,X,X,X,f120,X,N,f123,f124,f125,f126 };
+    f98,f99,f100,f101,f102,X,X,f105,X,X,f108,f109,f110,X,f112,f113,f114,f115,f116,X,X,X,f120,X,N,f123,f124,f125,f126 };
 void R(int x) { s=(s<sb)?(sb-1):s; r=rb; p=x; while (p) { u=st.b[p++]; q[u](); } }
 void H(char *s) { FILE *fp=fopen("h.txt", "at"); if (fp) { fprintf(fp, "%s", s); fclose(fp); } }
 void L() { y=&st.b[h]; printf("\ns2:("); f113(); printf(")>"); fgets(y, 128, stdin); H(y); R(h); }
