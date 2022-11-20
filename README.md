@@ -3,7 +3,7 @@ S2 is a full-featured and interactive stack-based interpreter/VM, implemented in
 
 It was inspired by, and is based on, Sandor Schneider's STABLE program.
 
-S2 supports up to 26 function definitions, floating point math, locals, and simple file operations. It also provides 26 registers.
+S2 supports up to 676 (26*26) function definitions, floating point math, locals, and simple file operations. It also provides 26 registers.
 
 ## Examples
 ```
@@ -89,7 +89,7 @@ dX@   (--n)       n: value of register X BEFORE decrementing it
 
 
 *** FUNCTIONS ***
-        NOTE: A function name is a single UPPERCASE character, A-Z.
+        NOTE: A function name is up to 2 UPPERCASE characters, A-ZZ.
 :X;   (--)        Define function X. Copy chars to (HERE++) until next ';'.
 X     (?--?)      Call function X.
 ;     (--)        Return, end function definition.
@@ -119,20 +119,20 @@ b      (--)       Output a single SPACE (NOTE: b&, b|, b^, and b~ take precedenc
 <=    (a b--f)    f: (a <= b) ? -1 : 0;
 >=    (a b--f)    f: (a >= b) ? -1 : 0;
 ~     (a--f)      f: (a == 0) ? -1 : 0;  (Logical NOT)
-(     (f--)       IF: if (f != 0), continue into '()', else jump to next ')'
+(     (f--)       IF: if (f != 0), continue into '()', else jump to next ')'.
 [     (F T--)     FOR: start a FOR/NEXT loop.
-]     (--)        NEXT: increment index (I) and restart loop if (rI <= T)
-n     (--n)       n: the index of the current FOR loop iterator
-p     (N--)       Add N to the current FOR loop iterator
-xF    (--)        eXit FOR loop: unwind FOR loop stack, jump to next ']'
-{     (f--f)      BEGIN: if (f == 0) jump to matching '}'
-}     (f--f?)     WHILE: if (f != 0) jump to matching '{', else drop f and continue
-xW    (--)        eXit WHILE loop: unwind WHILE loop stack, continue after next '}'
-xU    (--)        Remove the top entry from the return stack.
+]     (--)        NEXT: increment index (I) and restart loop if (rI <= T).
+n     (--n)       n: the index of the current FOR loop iterator.
+p     (N--)       Add N to the current FOR loop iterator.
+{     (f--f)      BEGIN: if (f == 0) jump to matching '}'.
+}     (f--f?)     WHILE: if (f != 0) jump to matching '{', else drop f and continue.
+e     (A--)       EXECUTE: call function at location A.
+xF    (--)        Exit FOR loop: unwind FOR loop stack and skip to the next ']'.
+xW    (--)        Exit WHILE loop: unwind WHILE loop stack and skip to the next '}'.
+xU    (--)        Remove the top entry from the return/loop stack.
         NOTES: 1) This can be used to return from the function while in a loop.
                2) A WHILE loop puts ONE entry on the return stack.
                3) A FOR loop puts 3 entries on the return stack.
-e     (A--)       EXECUTE: call function at location A
 
 
 *** FILE ***

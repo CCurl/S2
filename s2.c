@@ -1,4 +1,4 @@
-// S2.c - inspired by, and based on, STABLE from Sandor Schneider
+// S2.c - inspired by, STABLE from Sandor Schneider
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -6,10 +6,11 @@
 #define btw(a,b,c) ((b<=a) && (a<=c))
 #define TOS st.i[s]
 #define NOS st.i[s-1]
-#define SZ 10000
+#define SZ 16000
 union fib { float f[SZ/4]; int i[SZ/4]; char b[SZ]; }; static union fib st;
-static char ex[80], *y; static int c, cb=800, h, p, lb=125, rg=68, rb=64, r, sb=4, s, t, u;
-/* <33 */ void X()   { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; } void N() {}
+static char ex[80], *y; static int c, cb=4000, h, p, lb=750, rg=68, rb=64, r, sb=4, s, t, u;
+int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u; } return x; }
+/* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; }
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
 /*  "  */ void f34() { while (st.b[p]!='"') { putc(st.b[p++], stdout); } ++p; }
 /*  #  */ void f35() { t=TOS; st.i[++s]=t; }
@@ -26,15 +27,15 @@ static char ex[80], *y; static int c, cb=800, h, p, lb=125, rg=68, rb=64, r, sb=
 /*  /  */ void f47() { NOS /= TOS; s--; }
 /* 0-9 */ void n09() { st.i[++s]=(u-'0'); while (btw(st.b[p],'0','9')) { TOS=(TOS*10)+st.b[p++]-'0'; }
             if (st.b[p]=='e') { ++p; st.f[s]=(float)TOS; } }
-/*  :  */ void f58() { u=st.b[p++]; if (!btw(u,'A','Z')) { return; } if (st.b[p]==' ') { ++p; }
-            st.i[u]=p; while (st.b[p++]!=';'); if (h<p) { h=p; } st.i[0]=h; }
+/*  :  */ void f58() { p=fn(p); if (btw(u,65,65+(26*26))) { while (st.b[p]==' ') { ++p; }
+            st.i[u]=p; while (st.b[p++]!=';') {} h=(h<p)?p:h; st.i[0]=h; } }
 /*  ;  */ void f59() { p=st.i[r++]; if (rb<r) { r=rb; p=0; } }
 /*  <  */ void f60() { t=TOS; u=NOS; s--; TOS=(u<t)?-1:0; if (st.b[p]=='=') { ++p; TOS=(u<=t)?-1:0; } }
 /*  =  */ void f61() { NOS=(NOS==TOS)?-1:0; s--; }
 /*  <  */ void f62() { t=TOS; u=NOS; s--; TOS=(u>t)?-1:0; if (st.b[p]=='=') { ++p; TOS=(u>=t)?-1:0; } }
 /*  ?  */ void f63() { c=fgetc(stdin); st.i[++s]=(c!=EOF)?c:0; }
 /*  @  */ void f64() { TOS=st.i[TOS]; }
-/* A-Z */ void AZ()  { if (st.i[u]) { if (st.b[p]!=';') { st.i[--r]=p; } p=st.i[u]; } }
+/* A-Z */ void AZ()  { p=fn(p-1); if (st.i[u]) { if (st.b[p]!=';') { st.i[--r]=p; } p=st.i[u]; } }
 /*  [  */ void f91() { st.i[--r]=p; st.i[--r]=st.i[s--]; st.i[--r]=st.i[s--]; }
 /*  \  */ void f92() { --s; }
 /*  ]  */ void f93() { ++st.i[r]; if (st.i[r] <= st.i[r+1]) { p=st.i[r+2]; } else { r+=3; } }
@@ -55,15 +56,15 @@ static char ex[80], *y; static int c, cb=800, h, p, lb=125, rg=68, rb=64, r, sb=
             else if (u=='-') { st.f[s-1]-=st.f[s]; s--; }      else if (u=='>') { TOS=(st.f[s-1] > st.f[s]) ? -1 : 0; }
             else if (u=='*') { st.f[s-1]*=st.f[s]; s--; }      else if (u=='i') { TOS=(int)st.f[s]; }
             else if (u=='/') { st.f[s-1]/=st.f[s]; s--; }      else if (u=='f') { st.f[s]=(float)TOS; }
-            else if (u=='s') { st.f[s]=(float)sqrt(st.f[s]); } else if (u=='t') { st.f[s]=(float)tanh(st.f[s]); }
+            // else if (u=='s') { st.f[s]=(float)sqrt(st.f[s]); } else if (u=='t') { st.f[s]=(float)tanh(st.f[s]); }
             else if (u=='O') { y=&st.b[NOS]; t=TOS; NOS=(int)fopen(y, (t)?"wb":"rb"); s--; }
             else if (u=='C') { if (TOS) { fclose((FILE*)TOS); } s--; }
             else if (u=='R') { s++; TOS=0; if (NOS) fread((void*)&TOS, 1, 1, (FILE*)NOS); }
             else if (u=='W') { if (TOS) { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); } s-=2; } }
 /*  i  */ void f105() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+32]++; } else { --p; ++TOS; }  }
 /*  l  */ void f108() { u=st.b[p++]; if (btw(u,'0','9')) { st.i[++s]=lb+u-'0'; }
-        else if (u=='+') { lb+=(lb<185)?10:0; }
-        else if (u=='-') { lb-=(125<lb)?10:0; } }
+        else if (u=='+') { lb+=(lb<840)?10:0; }
+        else if (u=='-') { lb-=(750<lb)?10:0; } }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
 /*  q  */ void f113() { int i; for (i=sb; i<=s; i++) { printf("%c%d", (i==sb)?0:32, st.i[i]); } }
@@ -71,8 +72,8 @@ static char ex[80], *y; static int c, cb=800, h, p, lb=125, rg=68, rb=64, r, sb=
 /*  s  */ void f115() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+32]=st.i[s--]; } }
 /*  t  */ void f116() { st.i[++s]=clock(); }
 /*  x  */ void f120() { u=st.b[p++]; if (u=='U') { ++r; }
-            else if (u=='W') { while (st.b[p++]!='}'); r++; }
-            else if (u=='F') { while (st.b[p++]!=']'); r+=3; }
+            else if (u=='W') { while (st.b[p++]!='}') {} r++; }
+            else if (u=='F') { while (st.b[p++]!=']') {} r+=3; }
             else if (u=='%') { NOS%=TOS; s--; }
             else if (u=='Q') { exit(0); } }
 /*  {  */ void f123() { st.i[--r]=p; if (TOS==0) { while (st.b[p]!='}') { ++p; } } }
@@ -86,12 +87,12 @@ void (*q[127])()={ X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X
 void R(int x) { s=(s<sb)?(sb-1):s; r=rb; p=x; while (p) { u=st.b[p++]; q[u](); } }
 void H(char *s) { FILE *fp=fopen("h.txt", "at"); if (fp) { fprintf(fp, "%s", s); fclose(fp); } }
 void L() { y=&st.b[h]; printf("\ns2:("); f113(); printf(")>"); fgets(y, 128, stdin); H(y); R(h); }
-void main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     int i,j; s=sb-1; h=cb; u=SZ-500; for (i=0; i<(SZ/4); i++) { st.i[i]=0; }
-    st.i[lb]=argc; for (i=1; i < argc; ++i) { y=argv[i]; t=atoi(y);
+    st.i[0]=h; st.i[lb]=argc; for (i=1; i < argc; ++i) { y=argv[i]; t=atoi(y);
         if ((t) || (y[0]=='0' && y[1]==0)) { st.i[lb+i]=t; }
         else { st.i[lb+i]=u; for (j=0; y[j]; j++) { st.b[u++]=y[j]; } st.b[u++]=0; } }
     if ((argc>1) && (argv[1][0]!='-')) { FILE *fp=fopen(argv[1], "rb"); 
         if (fp) {while ((c=fgetc(fp))!=EOF) { if (btw(c,32,126)) st.b[h++]=c; } fclose(fp); st.i[0]=h; R(cb); }
-    } while (1) { L(); };
+    } while (1) { L(); } return 0;
 }
