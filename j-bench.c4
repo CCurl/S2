@@ -1,3 +1,4 @@
 2124680 s1
-100 2 do r1 2 do r1 i mod 0= if r1 . ." is not prime says " i . cr then loop loop
+100 2 do r1 2 do r1 i mod 0= if r1 . " is not prime says " qtype i . cr then loop loop
 bye
+// 7342 ms
