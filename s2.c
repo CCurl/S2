@@ -1,4 +1,4 @@
-// S2.c - inspired by, STABLE from Sandor Schneider
+// S2.c - inspired by Sandor Schneider's STABLE (https://w3group.de/stable.html)
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -9,7 +9,7 @@
 #define SZ 16000
 #define NFUNC (26*26)
 static union { float f[SZ/4]; int i[SZ/4]; char b[SZ]; } st; static char ex[80], *y;
-static int sb=4, rb=64, lb=NFUNC+100, cb=(NFUNC+200)*4, c, h, p, r, s, t, u;
+static int sb=4, rb=64, lb=NFUNC+30, cb=(NFUNC+130)*4, c, h, p, r, s, t, u;
 int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u; } return x; }
 /* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; }
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
@@ -48,7 +48,7 @@ int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u;
             else if (u=='|') { NOS|=TOS; s--; }
             else if (u=='^') { NOS^=TOS; s--; }
             else { putc(32, stdout); --p; } }
-/*  c  */ void f99()  { u=st.b[p++]; if (u=='@') { TOS=st.b[TOS]; } else if (u=='!') { st.b[TOS]=NOS; s -= 2; } }
+/*  c  */ void f99()  { u=st.b[p++]; if (u=='@') { TOS=st.b[TOS]; } else if (u=='!') { st.b[TOS]=NOS; s-=2; } }
 /*  d  */ void f100() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+NFUNC]--; } else { --p; --TOS; } }
 /*  e  */ void f101() { st.i[--r]=p; p=st.i[s--]; }
 /*  f  */ void f102() { u=st.b[p++];                                if (u=='.') { printf("%g", st.f[s--]); }
@@ -64,14 +64,14 @@ int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u;
             else if (u=='W') { if (TOS) { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); } s-=2; } }
 /*  i  */ void f105() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+NFUNC]++; } else { --p; ++TOS; }  }
 /*  l  */ void f108() { u=st.b[p++]; if (btw(u,'0','9')) { st.i[++s]=lb+u-'0'; }
-        else if (u=='+') { lb+=(lb<840)?10:0; }
-        else if (u=='-') { lb-=(750<lb)?10:0; } }
+        else if (u=='+') { lb+=(lb<(NFUNC+120))?10:0; }
+        else if (u=='-') { lb-=((NFUNC+30)<lb)?10:0; } }
 /*  m  */ void f109() { NOS%=TOS; s--; }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
 /*  q  */ void f113() { int i; for (i=sb; i<=s; i++) { printf("%c%d", (i==sb)?0:32, st.i[i]); } }
-/*  r  */ void f114() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[++s]=st.i[u+NFUNC]; } }
-/*  s  */ void f115() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+NFUNC]=st.i[s--]; } }
+/*  r  */ void f114() { u=st.b[p++]; st.i[++s]=st.i[u+NFUNC]; }
+/*  s  */ void f115() { u=st.b[p++]; st.i[u+NFUNC]=st.i[s--]; }
 /*  t  */ void f116() { st.i[++s]=clock(); }
 /*  x  */ void f120() { u=st.b[p++]; if (u=='U') { ++r; }
             else if (u=='W') { while (st.b[p++]!='}') {} r++; }
