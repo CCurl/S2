@@ -1,4 +1,4 @@
-// S2.c - inspired by, STABLE from Sandor Schneider
+// S2.c - inspired by Sandor Schneider's STABLE (https://w3group.de/stable.html)
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -7,8 +7,9 @@
 #define TOS st.i[s]
 #define NOS st.i[s-1]
 #define SZ 16000
-union fib { float f[SZ/4]; int i[SZ/4]; char b[SZ]; }; static union fib st;
-static char ex[80], *y; static int c, cb=4000, h, p, lb=750, rg=68, rb=64, r, sb=4, s, t, u;
+#define NFUNC (26*26)
+static union { float f[SZ/4]; int i[SZ/4]; char b[SZ]; } st; static char ex[80], *y;
+static int sb=4, rb=64, lb=NFUNC+30, cb=(NFUNC+130)*4, c, h, p, r, s, t, u;
 int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u; } return x; }
 /* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; }
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
@@ -27,7 +28,7 @@ int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u;
 /*  /  */ void f47() { NOS /= TOS; s--; }
 /* 0-9 */ void n09() { st.i[++s]=(u-'0'); while (btw(st.b[p],'0','9')) { TOS=(TOS*10)+st.b[p++]-'0'; }
             if (st.b[p]=='e') { ++p; st.f[s]=(float)TOS; } }
-/*  :  */ void f58() { p=fn(p); if (btw(u,65,65+(26*26))) { while (st.b[p]==' ') { ++p; }
+/*  :  */ void f58() { p=fn(p); if (btw(u,65,65+NFUNC)) { while (st.b[p]==' ') { ++p; }
             st.i[u]=p; while (st.b[p++]!=';') {} h=(h<p)?p:h; st.i[0]=h; } }
 /*  ;  */ void f59() { p=st.i[r++]; if (rb<r) { r=rb; p=0; } }
 /*  <  */ void f60() { t=TOS; u=NOS; s--; TOS=(u<t)?-1:0; if (st.b[p]=='=') { ++p; TOS=(u<=t)?-1:0; } }
@@ -47,8 +48,8 @@ int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u;
             else if (u=='|') { NOS|=TOS; s--; }
             else if (u=='^') { NOS^=TOS; s--; }
             else { putc(32, stdout); --p; } }
-/*  c  */ void f99()  { u=st.b[p++]; if (u=='@') { TOS=st.b[TOS]; } else if (u=='!') { st.b[TOS]=NOS; s -= 2; } }
-/*  d  */ void f100() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+32]--; } else { --p; --TOS; } }
+/*  c  */ void f99()  { u=st.b[p++]; if (u=='@') { TOS=st.b[TOS]; } else if (u=='!') { st.b[TOS]=NOS; s-=2; } }
+/*  d  */ void f100() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+NFUNC]--; } else { --p; --TOS; } }
 /*  e  */ void f101() { st.i[--r]=p; p=st.i[s--]; }
 /*  f  */ void f102() { u=st.b[p++];                                if (u=='.') { printf("%g", st.f[s--]); }
             else if (u=='@') { st.f[s]=st.f[TOS]; }            else if (u=='!') { st.f[TOS]=st.f[s-1]; s-=2; }
@@ -61,16 +62,16 @@ int fn(int x) { u=st.b[x++]; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u;
             else if (u=='C') { if (TOS) { fclose((FILE*)TOS); } s--; }
             else if (u=='R') { s++; TOS=0; if (NOS) fread((void*)&TOS, 1, 1, (FILE*)NOS); }
             else if (u=='W') { if (TOS) { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); } s-=2; } }
-/*  i  */ void f105() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+32]++; } else { --p; ++TOS; }  }
+/*  i  */ void f105() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+NFUNC]++; } else { --p; ++TOS; }  }
 /*  l  */ void f108() { u=st.b[p++]; if (btw(u,'0','9')) { st.i[++s]=lb+u-'0'; }
-        else if (u=='+') { lb+=(lb<840)?10:0; }
-        else if (u=='-') { lb-=(750<lb)?10:0; } }
-/*  m  */ void f109() { NOS %= TOS; s--; }
+        else if (u=='+') { lb+=(lb<(NFUNC+120))?10:0; }
+        else if (u=='-') { lb-=((NFUNC+30)<lb)?10:0; } }
+/*  m  */ void f109() { NOS%=TOS; s--; }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
 /*  q  */ void f113() { int i; for (i=sb; i<=s; i++) { printf("%c%d", (i==sb)?0:32, st.i[i]); } }
-/*  r  */ void f114() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[++s]=st.i[u+32]; } }
-/*  s  */ void f115() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u+32]=st.i[s--]; } }
+/*  r  */ void f114() { u=st.b[p++]; st.i[++s]=st.i[u+NFUNC]; }
+/*  s  */ void f115() { u=st.b[p++]; st.i[u+NFUNC]=st.i[s--]; }
 /*  t  */ void f116() { st.i[++s]=clock(); }
 /*  x  */ void f120() { u=st.b[p++]; if (u=='U') { ++r; }
             else if (u=='W') { while (st.b[p++]!='}') {} r++; }
