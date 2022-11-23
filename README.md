@@ -60,8 +60,8 @@ b~  (a--b)        b: NOT a (ones-complement, e.g - 11001011 => 00110100)
 
 
 *** MEMORY ***
-        USAGE: ints:  [0- 64:stacks][ 65- 90:funcs][ 97-122:regs][125-194:locals][200-end:free]
-               bytes: [0-259:stacks][260-359:funcs][388-491:regs][500-779:locals][800-end:free]
+        USAGE: ints:  [0- 64:stacks][ 65- 90:regs][NUM_FUNCS][locals:100][code/free]
+               bytes: [0-259:stacks][260-359:regs][NUM_FUNCS][locals:400][code/free]
 @     (a--n)      Fetch INT   n from S2 address a
 c@    (a--n)      Fetch BYTE  n from S2 address a
 f@    (a--n)      Fetch FLOAT n from S2 address a
@@ -83,9 +83,7 @@ l-    (--)        De-allocate 10 locals
 rX    (--n)       Read value of register X (n)
 sX    (n--)       Store (n) in register X
 iX    (--)        Increment register X
-iX@   (--n)       n: value of register X BEFORE incrementing it
 dX    (--)        Decrement register X
-dX@   (--n)       n: value of register X BEFORE decrementing it
 
 
 *** FUNCTIONS ***
@@ -124,15 +122,15 @@ b      (--)       Output a single SPACE (NOTE: b&, b|, b^, and b~ take precedenc
 ]     (--)        NEXT: increment index (I) and restart loop if (rI <= T).
 n     (--n)       n: the index of the current FOR loop iterator.
 p     (N--)       Add N to the current FOR loop iterator.
-{     (f--f)      BEGIN: if (f == 0) jump to matching '}'.
-}     (f--f?)     WHILE: if (f != 0) jump to matching '{', else drop f and continue.
+{     (f--f)      BEGIN: if (f == 0) skip to next '}'.
+}     (f--f?)     WHILE: if (f != 0) jump to opening '{', else drop f and continue.
 e     (A--)       EXECUTE: call function at location A.
 xF    (--)        Exit FOR loop: unwind FOR loop stack and skip to the next ']'.
 xW    (--)        Exit WHILE loop: unwind WHILE loop stack and skip to the next '}'.
 xU    (--)        Remove the top entry from the return/loop stack.
-        NOTES: 1) This can be used to return from the function while in a loop.
-               2) A WHILE loop puts ONE entry on the return stack.
-               3) A FOR loop puts 3 entries on the return stack.
+        NOTES: 1) xU can be used with '^' to return from a function while in a loop.
+               2) A WHILE loop puts ONE entry on the return stack (e.g: xU^).
+               3) A FOR loop puts 3 entries on the return stack  (e.g: xUxUxU^).
 
 
 *** FILE ***
