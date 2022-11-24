@@ -94,6 +94,6 @@ int main(int argc, char *argv[]) {
         if ((t) || (y[0]=='0' && y[1]==0)) { st.i[lb+i]=t; }
         else { st.i[lb+i]=u; for (j=0; y[j]; j++) { st.b[u++]=y[j]; } st.b[u++]=0; } }
     if ((argc>1) && (argv[1][0]!='-')) { FILE *fp=fopen(argv[1], "rb"); 
-        if (fp) {while ((c=fgetc(fp))!=EOF) { if (btw(c,32,126)) st.b[h++]=c; } fclose(fp); st.i[0]=h; R(cb); }
+        if (fp) {while ((c=fgetc(fp))!=EOF) { st.b[h++]=(31<c)?c:32; } fclose(fp); st.i[0]=h; R(cb); }
     } while (1) { L(); } return 0;
 }
