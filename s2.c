@@ -10,7 +10,7 @@
 #define NFUNC (26*26)
 static union { float f[SZ/4]; int i[SZ/4]; char b[SZ]; } st; static char ex[80], *y;
 static int sb=4, rb=64, lb=NFUNC+30, cb=(NFUNC+130)*4, c, h, p, r, s, t, u;
-int fn(int x) { u=(st.b[x++]-65)*26+st.b[x++]+26; return x; }
+int fn(int x) { u=(st.b[x++]-64)*26+st.b[x++]; return x; }
 /* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; }
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
 /*  "  */ void f34() { while (st.b[p]!='"') { putc(st.b[p++], stdout); } ++p; }
