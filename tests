@@ -1,26 +1,26 @@
-:N13,10,;
+:CR13,10,;
 100sA rA.b iA rA.b dA rA.b
-N1 2 3 ++.b1 2 3$\.b.
-N10_ 10[n.b]
-N10 15[nsIrI.b"("4 5[n#.4=(b)]")"b]
-N10{#.b1-}"-out"
-N:A"start-"50{#.b#41=(\xU^)1-}"-end";A"-back"
-N:A"start-"30{#.b#22=(\xW)1-}"-end";A"-back"
-N:A"start-"33 55[n#.b44=(xF)]"-end";A"-back"
-N:A"part 1""-part 2";A"-back"
-N:A"part 1"^"-part 2";A"-back"
-123#l4!l+456#l4!l4@=~(N"-local! fail-")
-l-l4@=~(N"- l+/l- fail-")
-:A"hello ("#.")"b17=(^)"-not 17";
-:Et$- ff 1000e f/ f." seconds";
-:K1000*;:M K K;
-N22A"-back"N17A"-back"
-N20 #{\#.b1+#31<=}\
-:Bt$1$#.b[]E;
-N50M B
-N"PI: "355e 113e f/ f.
-N 999e 1000e f/ "tanh("#f.")="ft f.
-:P%%&~(\=^)%<(\^)2+P;
-Nt 100000sN 4sC 11 rN[n3P(iC)1p]rC." primes in "rN.", " E
-:A N0sN l1@ 0fO#(fR{\iN fR}fC)rN." bytes in test file.";A
+CR1 2 3 ++.b1 2 3$\.b.
+CR10_ 10[n.b]
+CR10 15[nsIrI.b"("4 5[n#.4=(b)]")"b]
+CR10{#.b1-}"-out"
+CR:AA"start-"50{#.b#41=(\xU^)1-}"-end";AA"-back"
+CR:AA"start-"30{#.b#22=(\xW)1-}"-end";AA"-back"
+CR:AA"start-"33 55[n#.b44=(xF)]"-end";AA"-back"
+CR:AA"part 1""-part 2";AA"-back"
+CR:AA"part 1"^"-part 2";AA"-back"
+123#l4!l+456#l4!l4@=~(CR"-local! fail-")
+l-l4@=~(CR"- l+/l- fail-")
+:AA"hello ("#.")"b17=(^)"-not 17";
+:ELt$- ff 1000e f/ f." seconds";
+:KK1000*;:MB KKKK;
+CR22AA"-back"CR17AA"-back"
+CR20 #{\#.b1+#31<=}\
+:BMt$1$#.b[]EL;
+CR50MBBM
+CR"PI: "355e 113e f/ f.
+CR 999e 1000e f/ "tanh("#f.")="ft f.
+:IP%%&~(\=^)%<(\^)2+IP;
+CRt 100000sN 4sC 11 rN[n3IP(iC)1p]rC." primes in "rN.", " EL
+:AA CR0sN l1@ 0fO#(fR{\iN fR}fC)rN." bytes in test file.";AA
 0(xQ)
