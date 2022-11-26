@@ -28,7 +28,7 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  /  */ void f47() { NOS /= TOS; s--; }
 /* 0-9 */ void n09() { st.i[++s]=(u-'0'); while (btw(st.b[p],'0','9')) { TOS=(TOS*10)+st.b[p++]-'0'; }
             if (st.b[p]=='e') { ++p; st.f[s]=(float)TOS; } }
-/*  :  */ void f58() { p=fn(p); if (91<=u) { while (st.b[p]==' ') { ++p; }
+/*  :  */ void f58() { p=fn(p); if (91<=u) { while (st.b[p]==' ') { ++p; } if (st.i[u]) { printf("-redef:%d-",u); }
             st.i[u]=p; while (st.b[p++]!=';') {} h=(h<p)?p:h; st.i[0]=h; } }
 /*  ;  */ void f59() { p=st.i[r++]; if (rb<r) { r=rb; p=0; } }
 /*  <  */ void f60() { t=TOS; u=NOS; s--; TOS=(u<t)?-1:0; if (st.b[p]=='=') { ++p; TOS=(u<=t)?-1:0; } }
