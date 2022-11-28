@@ -1,0 +1,11 @@
+:CR 13,10,;
+:HD "The Mandelbrot Set";
+:AQ iT rA#*rS/sC rB#*rS/sD rCrD+rK>(rJsM^) rArB*100/rY+sB rCrD-rX+sA iJ;
+:AL 0sA 0sB 0sJ rSsM 1{\ AQ rJ rM<};
+:AO AL rJ 40+#126>(\32),;
+:AX 490_ sX 1 95[AO rX 8+sX];
+:AY 340_ sY 1 35[CR AX rY20+sY];
+200 sS 1000000 sK
+0 sT t HD AY t$-
+CR rT." iterations, " . " ms"
+xQ
