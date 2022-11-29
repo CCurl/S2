@@ -5,17 +5,17 @@ It was inspired by, and is based on, Sandor Schneider's STABLE program.
 
 S2 supports up to 676 (26*26) function definitions, floating point math, locals, and simple file operations. It also provides 26 registers.
 
-## Examples
+## Some Examples
 ```
 0(this is a comment)
 "Hello World!"        0("Hello World!")
-:N10,;                0(define function N)
+:CR10,;               0(define function CR)
 10_ 10[n.b]           0(print out numbers from -10 through 10)
 #("yes")~("no")       0(print "yes" or "no" depending on TOS)
-r1 fO#(fR{,fR}fC)     0(print the contents of the file named by r1)
-123 {#.b1-}           0(count down and print out from 123 to 0)
-355e 113e f/ F.       0(floating point - PI)
-32 126[n.": "n.,N]    0(print the ascii table)
+r1 0fO#(fR{,fR}fC)    0(print the contents of the file named by r1)
+123 {#.b1-}           0(count down and print out from 123 to 1)
+355e 113e f/ f.       0(floating point - PI)
+32 126[n.": "n,CR]    0(print the ascii table)
 ```
 ## S2 Reference
 ```
@@ -87,9 +87,9 @@ dX    (--)        Decrement register X
 
 
 *** FUNCTIONS ***
-        NOTE: A function name is up to 2 UPPERCASE characters, A-ZZ.
-:X;   (--)        Define function X. Copy chars to (HERE++) until next ';'.
-X     (?--?)      Call function X.
+        NOTE: A function name is 2 UPPERCASE characters, AA-ZZ.
+:XX;  (--)        Define function XX. Copy chars to (HERE++) until next ';'.
+XX    (?--?)      Call function XX.
 ;     (--)        Return, end function definition.
 ^     (--)        Early return from function.
         NOTES: 1) When in a WHILE loop, unwind the loop stack first using (xU^).
@@ -102,7 +102,7 @@ X     (?--?)      Call function X.
 b      (--)       Output a single SPACE (NOTE: b&, b|, b^, and b~ take precedence)
 ".."   (--)       Output characters until the next '"'.
 0..9   (--n)      Scan DECIMAL number n. For multiple numbers, separate them by space (47 33).
-        NOTES: 1) To enter a negative number, use "NEGATE" (eg - 490_).
+        NOTES: 1) To enter a negative number, use '_' (eg - 490_).
                2) If "e" immediately follows the number (eg - 355e), then n is converted to a float.
 'x     (--n)      n: the ASCII value of x
 `XXX`  (--)       Executes XXX as a shell command (ie - system(xxx))
@@ -141,6 +141,7 @@ fW    (c f--)     WRITE - f: file handle, c: char to write
 
 
 *** OTHER ***
+0@    (--n)       n: HERE
 t     (--n)       n: clock()
 q     (--)        Prints the stack
 xQ    (--)        Exit S2

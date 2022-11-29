@@ -9,8 +9,8 @@
 #define SZ 16000
 #define NFUNC (26*26)
 static union { float f[SZ/4]; int i[SZ/4]; char b[SZ]; } st; static char ex[80], *y;
-static int sb=4, rb=64, lb=NFUNC+30, cb=(NFUNC+130)*4, c, h, p, r, s, t, u;
-int fn(int x) { u=st.b[x++]+26; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26+u; } return x; }
+static int sb=4, rb=64, lb=NFUNC+91, cb=(NFUNC+191)*4, c, h, p, r, s, t, u;
+int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; }
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
 /*  "  */ void f34() { while (st.b[p]!='"') { putc(st.b[p++], stdout); } ++p; }
@@ -28,7 +28,7 @@ int fn(int x) { u=st.b[x++]+26; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26
 /*  /  */ void f47() { NOS /= TOS; s--; }
 /* 0-9 */ void n09() { st.i[++s]=(u-'0'); while (btw(st.b[p],'0','9')) { TOS=(TOS*10)+st.b[p++]-'0'; }
             if (st.b[p]=='e') { ++p; st.f[s]=(float)TOS; } }
-/*  :  */ void f58() { p=fn(p); if (btw(u,65,65+NFUNC)) { while (st.b[p]==' ') { ++p; }
+/*  :  */ void f58() { p=fn(p); if (91<=u) { while (st.b[p]==' ') { ++p; } if (st.i[u]) { printf("-redef:%d-",u); }
             st.i[u]=p; while (st.b[p++]!=';') {} h=(h<p)?p:h; st.i[0]=h; } }
 /*  ;  */ void f59() { p=st.i[r++]; if (rb<r) { r=rb; p=0; } }
 /*  <  */ void f60() { t=TOS; u=NOS; s--; TOS=(u<t)?-1:0; if (st.b[p]=='=') { ++p; TOS=(u<=t)?-1:0; } }
@@ -64,8 +64,8 @@ int fn(int x) { u=st.b[x++]+26; if (btw(st.b[x],'A','Z')) { u=(st.b[x++]-'A')*26
             else if (u=='W') { if (TOS) { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); } s-=2; } }
 /*  i  */ void f105() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u]++; } else { --p; ++TOS; }  }
 /*  l  */ void f108() { u=st.b[p++]; if (btw(u,'0','9')) { st.i[++s]=lb+u-'0'; }
-        else if (u=='+') { lb+=(lb<(NFUNC+120))?10:0; }
-        else if (u=='-') { lb-=((NFUNC+30)<lb)?10:0; } }
+        else if (u=='+') { lb+=(lb<(NFUNC+181))?10:0; }
+        else if (u=='-') { lb-=((NFUNC+91)<lb)?10:0; } }
 /*  m  */ void f109() { NOS%=TOS; s--; }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
