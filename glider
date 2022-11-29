@@ -1,10 +1,36 @@
 0(Conway's GOL: a glider gun)
+0(register usage:)
+0(rA - area A)
+0(rB - area B)
+0(rI - current cell)
+0(rN - count of living neighbors)
+0(rC - number of rows)
+0(rR - number of columns)
+0(rX - current cell in area A)
+0(rY - current cell in area B)
+
+0(CD: show code)
+:CD 3468 0@d[nc@#,59=(10,)];
+
+0(AN: count neighbor: a1--a2)
 :AN #c@(iN)i;
+
+0(AA: live?: --f)
 :AA rN2=(rIc@^)rN3=(1^)0;
+
+0(AD: display: --)
 :AD 27,"[H" rBsY rAsX 1rR[1 rC[32 rYc@#rXc!(\'O),iXiY]10,];
-:AR rC*rB+;
+
+0(AW: work cell rI: n--f)
 :AW 0sN rC-1-ANANAN rC+3-AN1+AN rC+3-ANANAN \AA;
-:AL rCi rSrC-d[rAn+#sI AW rBn+c!]AD;
+
+0(OG: One generation: --)
+:OG rCi rSrC-d[rAn+#sI AW rBn+c!]AD;
+
+0(Init)
+0(AR: return base for row: n--a)
+:AR rC*rB+;
+0(Set variables)
 40sC 25sR rRrC*sS 0@100+sA rArS+sB 
  0AR|........................................|\
  1AR|..............................O.........|\
@@ -17,8 +43,19 @@
  8AR|............O.O.........................|\
  9AR|............OO..........................|\
 10AR|........................................|\
+0(Normalize initial data)
 rBsI 1rS[0 rI c@ 'O=(i) rI c! iI]
+0(Cursor off)
 27,"[?25l"
-27#,"[2J","[H" AD 1 10000[AL]
+
+0(clear screen, initial display)
+27#,"[2J","[H" AD 
+
+0(run 1000 generations)
+1 1000[OG]
+
+0(Cursor on)
 27,"[?25h"
-xQ
+
+0(quit)
+0(xQ)
