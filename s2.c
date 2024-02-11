@@ -8,7 +8,7 @@
 #define NOS st.i[s-1]
 #define SZ 16000
 #define NFUNC (26*26)
-static union { float f[SZ/4]; int i[SZ/4]; char b[SZ]; } st; static char ex[80], *y;
+static union { float f[SZ/4]; long i[SZ/4]; char b[SZ]; } st; static char ex[80], *y;
 static int sb=4, rb=64, lb=NFUNC+91, cb=(NFUNC+191)*4, c, h, p, r, s, t, u;
 int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; }
@@ -58,7 +58,7 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
             else if (u=='*') { st.f[s-1]*=st.f[s]; s--; }      else if (u=='i') { TOS=(int)st.f[s]; }
             else if (u=='/') { st.f[s-1]/=st.f[s]; s--; }      else if (u=='f') { st.f[s]=(float)TOS; }
             // else if (u=='s') { st.f[s]=(float)sqrt(st.f[s]); } else if (u=='t') { st.f[s]=(float)tanh(st.f[s]); }
-            else if (u=='O') { y=&st.b[NOS]; t=TOS; NOS=(int)fopen(y, (t)?"wb":"rb"); s--; }
+            else if (u=='O') { y=&st.b[NOS]; t=TOS; NOS=(long)fopen(y, (t)?"wb":"rb"); s--; }
             else if (u=='C') { if (TOS) { fclose((FILE*)TOS); } s--; }
             else if (u=='R') { s++; TOS=0; if (NOS) fread((void*)&TOS, 1, 1, (FILE*)NOS); }
             else if (u=='W') { if (TOS) { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); } s-=2; } }
