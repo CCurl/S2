@@ -1,5 +1,5 @@
 # S2
-S2 is a full-featured and interactive stack-based interpreter/VM, implemented in less than 100 lines of C code.
+S2 is a full-featured and interactive stack-based interpreter/VM, implemented in fewer than 100 lines of C code.
 
 It was inspired by, and is based on, Sandor Schneider's STABLE program.
 
