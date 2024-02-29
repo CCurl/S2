@@ -48,7 +48,7 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
             else if (u=='|') { NOS|=TOS; s--; }
             else if (u=='^') { NOS^=TOS; s--; }
             else { putc(32, stdout); --p; } }
-/*  c  */ void f99()  { u=st.b[p++]; if (u=='@') { TOS=st.b[TOS]; } else if (u=='!') { st.b[TOS]=NOS; s-=2; } }
+/*  c  */ void f99()  { u=st.b[p++]; if (u=='@') { TOS=st.b[TOS]; } else if (u=='!') { st.b[TOS]=(char)NOS; s-=2; } }
 /*  d  */ void f100() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u]--; } else { --p; --TOS; } }
 /*  e  */ void f101() { st.i[--r]=p; p=st.i[s--]; }
 /*  f  */ void f102() { u=st.b[p++];                                if (u=='.') { printf("%g", st.f[s--]); }
