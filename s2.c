@@ -1,7 +1,6 @@
 // S2.c - inspired by Sandor Schneider's STABLE (https://w3group.de/stable.html)
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <time.h>
 #define btw(a,b,c) ((b<=a) && (a<=c))
 #define TOS st.i[s]
@@ -24,7 +23,7 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  +  */ void f43() { NOS += TOS; s--; }
 /*  ,  */ void f44() { putc(st.i[s--], stdout); }
 /*  -  */ void f45() { NOS -= TOS; s--; }
-/*  .  */ void f46() { printf("%d", st.i[s--]); }
+/*  .  */ void f46() { printf("%ld", st.i[s--]); }
 /*  /  */ void f47() { NOS /= TOS; s--; }
 /* 0-9 */ void n09() { st.i[++s]=(u-'0'); while (btw(st.b[p],'0','9')) { TOS=(TOS*10)+st.b[p++]-'0'; }
             if (st.b[p]=='e') { ++p; st.f[s]=(float)TOS; } }
@@ -69,7 +68,7 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  m  */ void f109() { NOS%=TOS; s--; }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
-/*  q  */ void f113() { int i; for (i=sb; i<=s; i++) { printf("%c%d", (i==sb)?0:32, st.i[i]); } }
+/*  q  */ void f113() { int i; for (i=sb; i<=s; i++) { printf("%c%ld", (i==sb)?0:32, st.i[i]); } }
 /*  r  */ void f114() { st.i[++s]=st.i[st.b[p++]]; }
 /*  s  */ void f115() { st.i[st.b[p++]]=st.i[s--]; }
 /*  t  */ void f116() { st.i[++s]=clock(); }
@@ -89,10 +88,12 @@ void R(int x) { s=(s<sb)?(sb-1):s; r=rb; p=x; while (p) { u=st.b[p++]; q[u](); }
 void H(char *s) { FILE *fp=fopen("h.txt", "at"); if (fp) { fprintf(fp, "%s", s); fclose(fp); } }
 void L() { y=&st.b[h]; printf("\ns2:("); f113(); printf(")>"); fgets(y, 128, stdin); H(y); R(h); }
 int main(int argc, char *argv[]) {
-    int i,j; s=sb-1; h=cb; u=SZ-500; for (i=0; i<(SZ/4); i++) { st.i[i]=0; }
-    st.i[0]=h; st.i[lb]=argc; for (i=1; i < argc; ++i) { y=argv[i]; t=atoi(y);
+    s=sb-1; h=cb; u=SZ-500; for (int i=0; i<(SZ/4); i++) { st.i[i]=0; }
+    st.i[0]=h; st.i[lb]=argc; for (int i=1; i < argc; ++i) {
+        y=argv[i]; t=atoi(y);
         if ((t) || (y[0]=='0' && y[1]==0)) { st.i[lb+i]=t; }
-        else { st.i[lb+i]=u; for (j=0; y[j]; j++) { st.b[u++]=y[j]; } st.b[u++]=0; } }
+        else { st.i[lb+i]=u; for (int j=0; y[j]; j++) { st.b[u++]=y[j]; } st.b[u++]=0; }
+    }
     if ((argc>1) && (argv[1][0]!='-')) { FILE *fp=fopen(argv[1], "rb"); 
         if (fp) {while ((c=fgetc(fp))!=EOF) { st.b[h++]=(31<c)?c:32; } fclose(fp); st.i[0]=h; R(cb); }
     } while (1) { L(); } return 0;

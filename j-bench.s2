@@ -1,5 +1,5 @@
 2124680 sP
-:MSrP." is not prime says ".10,;
-t2 100[2 rP[rPnm~(nMS)]]t$-.
+:NPrP." is not prime says ".10,;
+t2 100[2 rP[rPnm~(nNP)]]t$-.
 xQ
 0(4789 ms)

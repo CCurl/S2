@@ -353,3 +353,4 @@ a.out
 .gitignore
 history.txt
 s2
+.vscode/*
