@@ -12,6 +12,9 @@ $(app): $(srcfiles) $(incfiles)
 	$(CC) $(CCFLAGS) $(LDFLAGS) -o $(app) $(srcfiles) $(LDLIBS)
 	ls -l $(app)
 
+run: $(app)
+	./$(app)
+
 clean:
 	rm -f $(app)
 

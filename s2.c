@@ -5,14 +5,14 @@
 #define btw(a,b,c) ((b<=a) && (a<=c))
 #define TOS st.i[s]
 #define NOS st.i[s-1]
-#define SZ 16000
+#define SZ 1000000
 #define NFUNC (26*26)
 static union { float f[SZ/4]; long i[SZ/4]; char b[SZ]; } st; static char ex[80], *y;
 static int sb=4, rb=64, lb=NFUNC+91, cb=(NFUNC+191)*4, c, h, p, r, s, t, u;
 int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; }
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
-/*  "  */ void f34() { while (st.b[p]!='"') { putc(st.b[p++], stdout); } ++p; }
+/*  "  */ void f34() { while (st.b[p]!='"') { putchar(st.b[p++]); } ++p; }
 /*  #  */ void f35() { t=TOS; st.i[++s]=t; }
 /*  $  */ void f36() { t=TOS; TOS=NOS; NOS=t; }
 /*  %  */ void f37() { t=NOS; st.i[++s]=t; }
@@ -21,7 +21,7 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  (  */ void f40() { if (st.i[s--]==0) { while (st.b[p++]!=')'); } }
 /*  *  */ void f42() { NOS *= TOS; s--; }
 /*  +  */ void f43() { NOS += TOS; s--; }
-/*  ,  */ void f44() { putc(st.i[s--], stdout); }
+/*  ,  */ void f44() { putchar(st.i[s--]); }
 /*  -  */ void f45() { NOS -= TOS; s--; }
 /*  .  */ void f46() { printf("%ld", st.i[s--]); }
 /*  /  */ void f47() { NOS /= TOS; s--; }
@@ -46,7 +46,7 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
             else if (u=='&') { NOS&=TOS; s--; }
             else if (u=='|') { NOS|=TOS; s--; }
             else if (u=='^') { NOS^=TOS; s--; }
-            else { putc(32, stdout); --p; } }
+            else { putchar(32); --p; } }
 /*  c  */ void f99()  { u=st.b[p++]; if (u=='@') { TOS=st.b[TOS]; } else if (u=='!') { st.b[TOS]=(char)NOS; s-=2; } }
 /*  d  */ void f100() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u]--; } else { --p; --TOS; } }
 /*  e  */ void f101() { st.i[--r]=p; p=st.i[s--]; }
@@ -56,7 +56,6 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
             else if (u=='-') { st.f[s-1]-=st.f[s]; s--; }      else if (u=='>') { TOS=(st.f[s-1] > st.f[s]) ? -1 : 0; }
             else if (u=='*') { st.f[s-1]*=st.f[s]; s--; }      else if (u=='i') { TOS=(int)st.f[s]; }
             else if (u=='/') { st.f[s-1]/=st.f[s]; s--; }      else if (u=='f') { st.f[s]=(float)TOS; }
-            // else if (u=='s') { st.f[s]=(float)sqrt(st.f[s]); } else if (u=='t') { st.f[s]=(float)tanh(st.f[s]); }
             else if (u=='O') { y=&st.b[NOS]; t=TOS; NOS=(long)fopen(y, (t)?"wb":"rb"); s--; }
             else if (u=='C') { if (TOS) { fclose((FILE*)TOS); } s--; }
             else if (u=='R') { s++; TOS=0; if (NOS) fread((void*)&TOS, 1, 1, (FILE*)NOS); }
@@ -68,14 +67,14 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  m  */ void f109() { NOS%=TOS; s--; }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
-/*  q  */ void f113() { int i; for (i=sb; i<=s; i++) { printf("%c%ld", (i==sb)?0:32, st.i[i]); } }
+/*  q  */ void f113() { putchar('('); for (int i=sb; i<=s; i++) { printf("%c%ld", (i==sb)?0:32, st.i[i]); } putchar(')'); }
 /*  r  */ void f114() { st.i[++s]=st.i[st.b[p++]]; }
 /*  s  */ void f115() { st.i[st.b[p++]]=st.i[s--]; }
 /*  t  */ void f116() { st.i[++s]=clock(); }
 /*  x  */ void f120() { u=st.b[p++]; if (u=='U') { ++r; }
             else if (u=='W') { while (st.b[p++]!='}') {} r++; }
             else if (u=='F') { while (st.b[p++]!=']') {} r+=3; }
-            else if (u=='Q') { exit(0); } }
+            else if (u=='C') { st.i[++s]=cb; } else if (u=='Q') { exit(0); } }
 /*  {  */ void f123() { st.i[--r]=p; if (TOS==0) { while (st.b[p]!='}') { ++p; } } }
 /*  |  */ void f124() { while (st.b[p]!='|') { st.b[TOS++]=st.b[p++]; } st.b[TOS++]=0; ++p; }
 /*  }  */ void f125() { if (TOS) { p=st.i[r]; } else { ++r; --s; } }
@@ -85,8 +84,7 @@ void (*q[127])()={ X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X
     AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,AZ,f91,f92,f93,f94,f95,f96,X,
     f98,f99,f100,f101,f102,X,X,f105,X,X,f108,f109,f110,X,f112,f113,f114,f115,f116,X,X,X,f120,X,N,f123,f124,f125,f126 };
 void R(int x) { s=(s<sb)?(sb-1):s; r=rb; p=x; while (p) { u=st.b[p++]; q[u](); } }
-void H(char *s) { FILE *fp=fopen("h.txt", "at"); if (fp) { fprintf(fp, "%s", s); fclose(fp); } }
-void L() { y=&st.b[h]; printf("\ns2:("); f113(); printf(")>"); fgets(y, 128, stdin); H(y); R(h); }
+void L() { y=&st.b[h]; printf("\ns2:"); f113(); putchar('>'); fgets(y, 128, stdin); R(h); }
 int main(int argc, char *argv[]) {
     s=sb-1; h=cb; u=SZ-500; for (int i=0; i<(SZ/4); i++) { st.i[i]=0; }
     st.i[0]=h; st.i[lb]=argc; for (int i=1; i < argc; ++i) {
