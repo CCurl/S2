@@ -1,7 +1,7 @@
 # S2
 S2 is a full-featured and interactive stack-based interpreter/VM, implemented in fewer than 100 lines of C code.
 
-It was inspired by, and is based on, Sandor Schneider's STABLE program.
+It was inspired by Sandor Schneider's STABLE program.
 
 S2 supports up to 676 (26*26) function definitions, floating point math, locals, and simple file operations. It also provides 26 registers.
 
@@ -125,12 +125,15 @@ p     (N--)       Add N to the current FOR loop iterator.
 {     (f--f)      BEGIN: if (f == 0) skip to next '}'.
 }     (f--f?)     WHILE: if (f != 0) jump to opening '{', else drop f and continue.
 e     (A--)       EXECUTE: call function at location A.
+xC    (--n)       n: the "CodeBase" - the original offset for HERE.
 xF    (--)        Exit FOR loop: unwind FOR loop stack and skip to the next ']'.
+xO    (n--)       n: the BYTE offset for a string to output.
 xW    (--)        Exit WHILE loop: unwind WHILE loop stack and skip to the next '}'.
 xU    (--)        Remove the top entry from the return/loop stack.
         NOTES: 1) xU can be used with '^' to return from a function while in a loop.
                2) A WHILE loop puts ONE entry on the return stack (e.g: xU^).
                3) A FOR loop puts 3 entries on the return stack  (e.g: xUxUxU^).
+xY    (n--)       n: the BYTE offset for a string to sent to system().
 
 
 *** FILE ***

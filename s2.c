@@ -74,7 +74,8 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  x  */ void f120() { u=st.b[p++]; if (u=='U') { ++r; }
             else if (u=='W') { while (st.b[p++]!='}') {} r++; }
             else if (u=='F') { while (st.b[p++]!=']') {} r+=3; }
-            else if (u=='C') { st.i[++s]=cb; } else if (u=='Q') { exit(0); } }
+            else if (u=='C') { st.i[++s]=cb; } else if (u=='O') { printf("%s", &st.b[TOS]); s--; }
+            else if (u=='Y') { system(&st.b[TOS]); s--; } else if (u=='Q') { exit(0); } }
 /*  {  */ void f123() { st.i[--r]=p; if (TOS==0) { while (st.b[p]!='}') { ++p; } } }
 /*  |  */ void f124() { while (st.b[p]!='|') { st.b[TOS++]=st.b[p++]; } st.b[TOS++]=0; ++p; }
 /*  }  */ void f125() { if (TOS) { p=st.i[r]; } else { ++r; --s; } }
