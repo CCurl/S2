@@ -9,7 +9,7 @@ int isPrime(int x) {
 }
 
 int main() {
-    int n=10000000;
+    int n=1000000;
     int c=4;
     for (int i = 11; i<n; i+=2) {
         if (isPrime(i)) { ++c; }
