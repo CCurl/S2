@@ -1,22 +1,25 @@
-app := s2
+ARCH ?= 64
 
 CC := clang
-CCFLAGS := -m32 -O3 -DIS_LINUX
+CCFLAGS := -m$(ARCH) -O3 -DIS_LINUX
 
 srcfiles := s2.c
 LDLIBS   := 
 
-all: $(app)
+all: s2
 
-$(app): $(srcfiles) $(incfiles)
-	$(CC) $(CCFLAGS) $(LDFLAGS) -o $(app) $(srcfiles) $(LDLIBS)
-	ls -l $(app)
+s2: $(srcfiles) $(incfiles)
+	$(CC) $(CCFLAGS) $(LDFLAGS) -o s2 $(srcfiles) $(LDLIBS)
+	ls -l s2
 
-run: $(app)
-	./$(app)
+run: s2
+	./s2
+
+test: s2
+	./s2 tests
 
 clean:
-	rm -f $(app)
+	rm -f s2
 
-bin: $(app)
-	cp -u -p $(app) ~/bin/
+bin: s2
+	cp -u -p s2 ~/bin/

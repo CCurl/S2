@@ -7,8 +7,8 @@
 #define NOS st.i[s-1]
 #define SZ 1000000
 #define NFUNC (26*26)
-static union { float f[SZ/4]; long i[SZ/4]; char b[SZ]; } st; static char ex[80], *y;
-static int sb=4, rb=64, lb=NFUNC+91, cb=(NFUNC+191)*4, c, h, p, r, s, t, u;
+static union { double f[SZ/8]; long i[SZ/sizeof(long)]; char b[SZ]; } st; static char ex[80], *y;
+static int sb=4, rb=64, lb=NFUNC+91, cb=(NFUNC+191)*sizeof(long), c, h, p, r, s, t, u;
 int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; }
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
@@ -25,8 +25,9 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  -  */ void f45() { NOS -= TOS; s--; }
 /*  .  */ void f46() { printf("%ld", st.i[s--]); }
 /*  /  */ void f47() { NOS /= TOS; s--; }
-/* 0-9 */ void n09() { st.i[++s]=(u-'0'); while (btw(st.b[p],'0','9')) { TOS=(TOS*10)+st.b[p++]-'0'; }
-            if (st.b[p]=='e') { ++p; st.f[s]=(float)TOS; } }
+          void nS() { u=1; t=0; while (('0'<=st.b[p])&&(st.b[p]<='9')) { t=(t*10)+st.b[p++]-'0'; u*=10; } }
+/* 0-9 */ void n09() { --p; nS(); st.i[++s]=t; if (st.b[p]!='.') { return; }
+            ++p; nS(); st.f[s]=(double)st.i[s]; st.f[s]+=((double)t/(double)u); }
 /*  :  */ void f58() { p=fn(p); if (91<=u) { while (st.b[p]==' ') { ++p; } if (st.i[u]) { printf("-redef:%d-",u); }
             st.i[u]=p; while (st.b[p++]!=';') {} h=(h<p)?p:h; st.i[0]=h; } }
 /*  ;  */ void f59() { p=st.i[r++]; if (rb<r) { r=rb; p=0; } }
@@ -43,27 +44,24 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  _  */ void f95() { TOS=-TOS; }
 /*  `  */ void f96() { y=ex; while ((31<st.b[p]) && (st.b[p]!='`')) { *(y++)=st.b[p++]; } *y=0; ++p; system(ex); }
 /*  b  */ void f98() { u=st.b[p++]; if (u=='~') { TOS = ~TOS; }
-            else if (u=='&') { NOS&=TOS; s--; }
-            else if (u=='|') { NOS|=TOS; s--; }
-            else if (u=='^') { NOS^=TOS; s--; }
-            else { putchar(32); --p; } }
+            else if (u=='&') { NOS&=TOS; s--; }    else if (u=='|') { NOS|=TOS; s--; }
+            else if (u=='^') { NOS^=TOS; s--; }    else { putchar(32); --p; } }
 /*  c  */ void f99()  { u=st.b[p++]; if (u=='@') { TOS=st.b[TOS]; } else if (u=='!') { st.b[TOS]=(char)NOS; s-=2; } }
 /*  d  */ void f100() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u]--; } else { --p; --TOS; } }
 /*  e  */ void f101() { st.i[--r]=p; p=st.i[s--]; }
 /*  f  */ void f102() { u=st.b[p++];                                if (u=='.') { printf("%g", st.f[s--]); }
-            else if (u=='@') { st.f[s]=st.f[TOS]; }            else if (u=='!') { st.f[TOS]=st.f[s-1]; s-=2; }
             else if (u=='+') { st.f[s-1]+=st.f[s]; s--; }      else if (u=='<') { TOS=(st.f[s-1] < st.f[s]) ? -1 : 0; }
             else if (u=='-') { st.f[s-1]-=st.f[s]; s--; }      else if (u=='>') { TOS=(st.f[s-1] > st.f[s]) ? -1 : 0; }
             else if (u=='*') { st.f[s-1]*=st.f[s]; s--; }      else if (u=='i') { TOS=(int)st.f[s]; }
-            else if (u=='/') { st.f[s-1]/=st.f[s]; s--; }      else if (u=='f') { st.f[s]=(float)TOS; }
+            else if (u=='/') { st.f[s-1]/=st.f[s]; s--; }      else if (u=='f') { st.f[s]=(double)TOS; }
             else if (u=='O') { y=&st.b[NOS]; t=TOS; NOS=(long)fopen(y, (t)?"wb":"rb"); s--; }
             else if (u=='C') { if (TOS) { fclose((FILE*)TOS); } s--; }
             else if (u=='R') { s++; TOS=0; if (NOS) fread((void*)&TOS, 1, 1, (FILE*)NOS); }
             else if (u=='W') { if (TOS) { fwrite((void*)&NOS, 1, 1, (FILE*)TOS); } s-=2; } }
 /*  i  */ void f105() { u=st.b[p++]; if (btw(u,'A','Z')) { st.i[u]++; } else { --p; ++TOS; }  }
 /*  l  */ void f108() { u=st.b[p++]; if (btw(u,'0','9')) { st.i[++s]=lb+u-'0'; }
-        else if (u=='+') { lb+=(lb<(NFUNC+181))?10:0; }
-        else if (u=='-') { lb-=((NFUNC+91)<lb)?10:0; } }
+            else if (u=='+') { lb+=(lb<(NFUNC+181))?10:0; }
+            else if (u=='-') { lb-=((NFUNC+91)<lb)?10:0; } }
 /*  m  */ void f109() { NOS%=TOS; s--; }
 /*  n  */ void f110() { st.i[++s]=st.i[r]; }
 /*  p  */ void f112() { st.i[r]+=st.i[s--]; }
@@ -87,7 +85,7 @@ void (*q[127])()={ X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X,X
 void R(int x) { s=(s<sb)?(sb-1):s; r=rb; p=x; while (p) { u=st.b[p++]; q[u](); } }
 void L() { y=&st.b[h]; printf("\ns2:"); f113(); putchar('>'); fgets(y, 128, stdin); R(h); }
 int main(int argc, char *argv[]) {
-    s=sb-1; h=cb; u=SZ-500; for (int i=0; i<(SZ/4); i++) { st.i[i]=0; }
+    s=sb-1; h=cb; u=SZ-500; for (int i=0; i<(SZ/sizeof(long)); i++) { st.i[i]=0; }
     st.i[0]=h; st.i[lb]=argc; for (int i=1; i < argc; ++i) {
         y=argv[i]; t=atoi(y);
         if ((t) || (y[0]=='0' && y[1]==0)) { st.i[lb+i]=t; }

@@ -12,15 +12,15 @@ CR:AA"part 1"^"-part 2";AA"-back"
 123#l4!l+456#l4!l4@=~(CR"-local! fail-")
 l-l4@=~(CR"- l+/l- fail-")
 :AA"hello ("#.")"b17=(^)"-not 17";
-:ELt$- ff 1000e f/ f." seconds";
-:KK1000*;:MB KKKK;
 CR22AA"-back"CR17AA"-back"
 CR20 #{\#.b1+#31<=}\
-:BMt$1$#.b[]EL;
-CR50MBBM
-CR"PI: "355e 113e f/ f.
-CR 999e 1000e f/ "tanh("#f.")="ft f.
+:ELt$- ff 1000000. f/ f." seconds";
+:KK1000*;:MB KKKK;
+:BM#.b t$ 1$[]EL;
+CR 500MB BM
+CR"PI: "355. 113. f/ f.
+CR 9999. 10000. f/ f.
 :IP%%&~(\=^)%<(\^)2+IP;
-CRt 100000sN 4sC 11 rN[n3IP(iC)1p]rC." primes in "rN.", " EL
+CRt 1000000 sN 4 sC 11 rN[n3IP(iC)1p] rC." primes in "rN.", " EL
 :AA CR0sN l1@ 0fO#(fR{\iN fR}fC)rN." bytes in test file.";AA
 0(xQ)

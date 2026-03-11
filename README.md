@@ -14,7 +14,7 @@ S2 supports up to 676 (26*26) function definitions, floating point math, locals,
 #("yes")~("no")       0(print "yes" or "no" depending on TOS)
 r1 0fO#(fR{,fR}fC)    0(print the contents of the file named by r1)
 123 {#.b1-}           0(count down and print out from 123 to 1)
-355e 113e f/ f.       0(floating point - PI)
+355. 113. f/ f.       0(floating point - PI)
 32 126[n.": "n,CR]    0(print the ascii table)
 ```
 ## S2 Reference
@@ -39,7 +39,8 @@ m   (a b--r)      r: MOD(a,b)
 
 
 *** FLOATING POINT ***
-0-9e (--n)        n: a floating point number
+   NOTE: on 64-bit builds, they are doubles
+N.N (--n)         n: a floating point number (eg - 1234.567)
 ff   (a--b)       b: int a converted to float
 fi   (a--b)       b: float a converted to int
 f+   (a b--n)     n: a+b
@@ -48,8 +49,6 @@ f*   (a b--n)     n: a*b
 f/   (a b--q)     q: a/b
 f<   (a b--a f)   f: (a < b) ? -1 : 0;
 f>   (a b--a f)   f: (a > b) ? -1 : 0;
-fs   (a--b)       b: SQRT(a)
-ft   (a--b)       b: TANH(a)
 
 
 *** BIT MANIPULATION ***
@@ -61,13 +60,10 @@ b~  (a--b)        b: NOT a (ones-complement, e.g - 11001011 => 00110100)
 
 *** MEMORY ***
         USAGE: ints:  [0- 64:stacks][ 65- 90:regs][NUM_FUNCS][locals:100][code/free]
-               bytes: [0-259:stacks][260-359:regs][NUM_FUNCS][locals:400][code/free]
-@     (a--n)      Fetch INT   n from S2 address a
+@     (a--n)      Fetch VALUE n from S2 address a
 c@    (a--n)      Fetch BYTE  n from S2 address a
-f@    (a--n)      Fetch FLOAT n from S2 address a
-!     (n a--)     Store INT   n to S2 address a
+!     (n a--)     Store VALUE n to S2 address a
 c!    (n a--)     Store BYTE  n to S2 address a
-f!    (n a--)     Store FLOAT n to S2 address a
 
 
 *** LOCALS ***
