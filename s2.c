@@ -8,9 +8,9 @@
 #define SZ 1000000
 #define NFUNC (26*26)
 static union { double f[SZ/8]; long i[SZ/sizeof(long)]; char b[SZ]; } st; static char ex[80], *y;
-static int sb=4, rb=64, lb=NFUNC+91, cb=(NFUNC+191)*sizeof(long), c, h, p, r, s, t, u;
-int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
-/* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %d (%c)?", u, u); p=0; }
+static long sb=4, rb=64, lb=NFUNC+91, cb=(NFUNC+191)*sizeof(long), c, h, p, r, s, t, u;
+long fn(long x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
+/* <33 */ void N() {} void X() { if (u && (u!=10)) printf("-IR %ld (%c)?", u, (char)u); p=0; }
 /*  !  */ void f33() { st.i[TOS]=NOS; s-=2; }
 /*  "  */ void f34() { while (st.b[p]!='"') { putchar(st.b[p++]); } ++p; }
 /*  #  */ void f35() { t=TOS; st.i[++s]=t; }
@@ -28,7 +28,7 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
           void nS() { u=1; t=0; while (('0'<=st.b[p])&&(st.b[p]<='9')) { t=(t*10)+st.b[p++]-'0'; u*=10; } }
 /* 0-9 */ void n09() { --p; nS(); st.i[++s]=t; if (st.b[p]!='.') { return; }
             ++p; nS(); st.f[s]=(double)st.i[s]; st.f[s]+=((double)t/(double)u); }
-/*  :  */ void f58() { p=fn(p); if (91<=u) { while (st.b[p]==' ') { ++p; } if (st.i[u]) { printf("-redef:%d-",u); }
+/*  :  */ void f58() { p=fn(p); if (91<=u) { while (st.b[p]==' ') { ++p; } if (st.i[u]) { printf("-redef:%ld-",u); }
             st.i[u]=p; while (st.b[p++]!=';') {} h=(h<p)?p:h; st.i[0]=h; } }
 /*  ;  */ void f59() { p=st.i[r++]; if (rb<r) { r=rb; p=0; } }
 /*  <  */ void f60() { t=TOS; u=NOS; s--; TOS=(u<t)?-1:0; if (st.b[p]=='=') { ++p; TOS=(u<=t)?-1:0; } }
@@ -52,7 +52,7 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  f  */ void f102() { u=st.b[p++];                                if (u=='.') { printf("%g", st.f[s--]); }
             else if (u=='+') { st.f[s-1]+=st.f[s]; s--; }      else if (u=='<') { TOS=(st.f[s-1] < st.f[s]) ? -1 : 0; }
             else if (u=='-') { st.f[s-1]-=st.f[s]; s--; }      else if (u=='>') { TOS=(st.f[s-1] > st.f[s]) ? -1 : 0; }
-            else if (u=='*') { st.f[s-1]*=st.f[s]; s--; }      else if (u=='i') { TOS=(int)st.f[s]; }
+            else if (u=='*') { st.f[s-1]*=st.f[s]; s--; }      else if (u=='i') { TOS=(long)st.f[s]; }
             else if (u=='/') { st.f[s-1]/=st.f[s]; s--; }      else if (u=='f') { st.f[s]=(double)TOS; }
             else if (u=='O') { y=&st.b[NOS]; t=TOS; NOS=(long)fopen(y, (t)?"wb":"rb"); s--; }
             else if (u=='C') { if (TOS) { fclose((FILE*)TOS); } s--; }
@@ -72,7 +72,8 @@ int fn(int x) { u=(st.b[x]-64)*26+st.b[x+1]; return x+2; }
 /*  x  */ void f120() { u=st.b[p++]; if (u=='U') { ++r; }
             else if (u=='W') { while (st.b[p++]!='}') {} r++; }
             else if (u=='F') { while (st.b[p++]!=']') {} r+=3; }
-            else if (u=='C') { st.i[++s]=cb; } else if (u=='O') { printf("%s", &st.b[TOS]); s--; }
+            else if (u=='C') { st.i[++s]=cb; }
+            else if (u=='O') { printf("%s", &st.b[TOS]); s--; }
             else if (u=='Y') { system(&st.b[TOS]); s--; } else if (u=='Q') { exit(0); } }
 /*  {  */ void f123() { st.i[--r]=p; if (TOS==0) { while (st.b[p]!='}') { ++p; } } }
 /*  |  */ void f124() { while (st.b[p]!='|') { st.b[TOS++]=st.b[p++]; } st.b[TOS++]=0; ++p; }
